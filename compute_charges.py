@@ -12,8 +12,10 @@ import numpy as np
 import argparse
 
 # For now, taken from NIST. Should be replaced by (less accurate) units used in ReaxFF.
+# The calorie is just defined with a four-digit precision relative to the Joule.
 angstrom = 1.0/0.52917721067
 electronvolt = 1.6021766208e-19/4.359744650e-18
+kcalmol = (4184/4.359744650e-18/6.022140857e23)
 
 
 def main():
@@ -25,7 +27,9 @@ def main():
     model.load_parameters(args.ffield)
     atsymbols, atpositions, cellvecs = load_structure(args.struct)
 
-    atcharges = model.compute_charges(atsymbols, atpositions, cellvecs)
+    energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs)
+    print('Energy [k cal mol^-1] = {:.5f}'.format(energy/kcalmol))
+    print('Charges [e]:')
     for q in atcharges:
         print('{:10.5f}'.format(q))
 
@@ -128,8 +132,13 @@ class EEMModel(object):
                 eta_matrix[iatom0, iatom1] = coulomb
                 eta_matrix[iatom1, iatom0] = coulomb
 
-        # Solve and return charges
-        return np.linalg.solve(eta_matrix, chi_vector)[:-1]
+        # Solve the charges
+        charges = np.linalg.solve(eta_matrix, chi_vector)[:-1]
+
+        # Compute the energy
+        energy = np.dot(chi_vector[:-1], charges) + 0.5*np.dot(charges, np.dot(eta_matrix[:-1,:-1], charges))
+
+        return energy, charges
 
     def taper(self, distance):
         """Taper correction as in ReaxFF."""
