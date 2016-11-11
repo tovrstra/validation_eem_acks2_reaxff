@@ -1,0 +1,2 @@
+# Ionize the first water molecule.
+1.0 1 2 3
