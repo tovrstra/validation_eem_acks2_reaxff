@@ -32,7 +32,7 @@ def main():
     }[args.model]()
     model.load_parameters(args.ffield)
 
-    energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs, constraints)
+    energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs, constraints, args.reduce)
     print('Energy [k cal mol^-1] = {:.5f}'.format(energy/kcalmol))
     print('Charges [e]:')
     for q in atcharges:
@@ -52,12 +52,16 @@ def parse_args():
     parser.add_argument('struct', help='An XYZ structure files.')
     parser.add_argument('-q', '--qtot', type=float, default=0.0, help='The total charge.')
     parser.add_argument(
-        '--constrain',
+        '-c', '--constrain',
         help='Constrain charges on groups of atoms to have a certain value. This option '
              'requires one argument: a file containing all the constraints. Non-empty '
              'lines in this file contain a float (the target charge) followed by a list '
              'of atom indexes defining the group to constrain. Atom indexes start '
              'counting from one, like in FORTRAN.')
+    parser.add_argument(
+        '-r', '--reduce', default=False, action='store_true',
+        help='Try to eliminate the charge-constraints from the ACKS2 equations. This '
+             'will only work for constraints that do not overlap.')
     return parser.parse_args()
 
 
@@ -179,7 +183,7 @@ class EEMModel(object):
     def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats):
         natom = len(atsymbols)
         for iatom0 in range(natom):
-            self._set_physics_atom(A, B, atsymbols, iatom0)
+            self._set_physics_atom(A, B, atsymbols, iatom0, natom)
             for iatom1 in range(natom):
                 # Get the (naive) minimum image convention
                 delta0 = atpositions[iatom0] - atpositions[iatom1]
@@ -206,7 +210,7 @@ class EEMModel(object):
                             assert distance > 1.0
                             self._set_physics_atom_pair(A, B, atsymbols, iatom0, iatom1, natom, distance)
 
-    def _set_physics_atom(self, A, B, atsymbols, iatom):
+    def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
         B[iatom] = self.chis[atsymbols[iatom]]
         A[iatom, iatom] = self.etas[atsymbols[iatom]]
 
@@ -219,7 +223,7 @@ class EEMModel(object):
         coulomb *= self.taper(distance)
         A[iatom0, iatom1] += coulomb
 
-    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints):
         """Compute atomic charges for a single molecule or crystal.
 
         Parameters
@@ -233,6 +237,8 @@ class EEMModel(object):
         constraints : list of tuples
             Each element is a tuple of a charge and a list of integer indexes defining the
             group whose charge is to be constrained.
+        reduce_constraints : bool
+            Ignored.
         """
         natom = len(atsymbols)
         ncon = len(constraints)
@@ -298,7 +304,29 @@ class ACKS2Model(EEMModel):
             A[iatom0 + natom, iatom1 + natom] += bsoft
             A[iatom1 + natom, iatom0 + natom] += bsoft
 
-    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
+    def _reduce_constraints(self, A, B, natom, ncon):
+        # A) Rewrite the first (total-charge) constraint to no longer overlap with the
+        # remaining ones
+        A_con = A[2*natom: 2*natom+ncon, :natom].copy()
+        for icon in range(1, ncon):
+            if (A_con[0] >= A_con[icon]).all():
+                A_con[0] -= A_con[icon]
+            else:
+                raise RuntimeError('Could not reduce constraints.')
+        # B) Find elements of X matrix that can remain non-zero
+        mask = abs(np.dot(A_con.T, A_con)) > 1e-5
+        # C) Apply mask
+        A[natom:2*natom, natom:2*natom] *= mask
+        for iatom in range(natom):
+            A[natom + iatom, natom + iatom] = 0.0
+            A[natom + iatom, natom + iatom] -= A[natom + iatom, natom:2*natom].sum()
+        # D) Reduce size of equations
+        A[2*natom+1] = A[-1]
+        A[:, 2*natom+1] = A[:, -1]
+        B[2*natom+1] = B[-1]
+        return A[:2*natom+2, :2*natom+2], B[:2*natom+2]
+
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints):
         """Compute atomic charges for a single molecule or crystal.
 
         Parameters
@@ -312,6 +340,8 @@ class ACKS2Model(EEMModel):
         constraints : list of tuples
             Each element is a tuple of a charge and a list of integer indexes defining the
             group whose charge is to be constrained.
+        reduce_constraints : bool
+            Try to eliminate the charge constraints.
         """
         natom = len(atsymbols)
         ncon = len(constraints)
@@ -326,9 +356,14 @@ class ACKS2Model(EEMModel):
             self._set_constraint(A, B, 2*natom + icon, charge, indexes)
         # Set reference charges to least-norm solution that satisfies the constraints
         B[natom:2*natom] = np.linalg.lstsq(A[2*natom:2*natom+ncon, :natom], B[2*natom:2*natom+ncon], rcond=1e-10)[0]
+
         # Physics
         self._set_constraint(A, B, 2*natom + ncon, 0.0, np.arange(natom, 2*natom))
         self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats)
+
+        # Optionally simplify the equations
+        if reduce_constraints:
+            A, B = self._reduce_constraints(A, B, natom, ncon)
 
         # Solve the charges
         charges = np.linalg.solve(A, B)[:natom]
