@@ -21,7 +21,7 @@ Just type the following on the command line:
 
     ./compute_charges.py {eem,acks2} reaxff_parameter_file {XYZ,PDB}
 
-Charges are just printed on screen.
+Energy (due to charges) and charges are just printed on screen.
 
 
 References
@@ -30,6 +30,7 @@ References
 Molecular data sets taken from
 
 * S66: http://begdb.com
+* Crystals from COD
 
 Description of EEM and ACKS2 models in ReaxFF was recently summarized in the following
 paper:

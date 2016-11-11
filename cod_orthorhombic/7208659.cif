@@ -1,0 +1,698 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-03-26 18:13:32 +0200 (Sat, 26 Mar 2016) $
+#$Revision: 180417 $
+#$URL: svn://www.crystallography.net/cod/cif/7/20/86/7208659.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_7208659
+loop_
+_publ_author_name
+'Podsiad\/lo, Marcin'
+'Patyk, Ewa'
+'Katrusiak, Andrzej'
+_publ_section_title
+;
+ Chiral aggregation hierarchy in high-pressure resolved 2-butanol and
+ 2,3-butanediol
+;
+_journal_issue                   20
+_journal_name_full               CrystEngComm
+_journal_page_first              6419
+_journal_paper_doi               10.1039/c2ce25372k
+_journal_volume                  14
+_journal_year                    2012
+_chemical_formula_moiety         'C4 H10 O2'
+_chemical_formula_sum            'C4 H10 O2'
+_chemical_formula_weight         90.12
+_chemical_melting_point          298
+_chemical_name_common            2,3-butanediol
+_chemical_name_systematic
+;
+2,3-butanediol
+;
+_space_group_IT_number           19
+_symmetry_cell_setting           orthorhombic
+_symmetry_space_group_name_Hall  'P 2ac 2ab'
+_symmetry_space_group_name_H-M   'P 21 21 21'
+_atom_sites_solution_hydrogens   geom
+_atom_sites_solution_primary     direct
+_atom_sites_solution_secondary   difmap
+_audit_creation_method           SHELXL-97
+_cell_angle_alpha                90.00
+_cell_angle_beta                 90.00
+_cell_angle_gamma                90.00
+_cell_formula_units_Z            4
+_cell_length_a                   5.0292(10)
+_cell_length_b                   9.3989(19)
+_cell_length_c                   10.186(2)
+_cell_measurement_reflns_used    3408
+_cell_measurement_temperature    295(2)
+_cell_measurement_theta_max      24.96
+_cell_measurement_theta_min      2.95
+_cell_volume                     481.48(17)
+_computing_cell_refinement       'CrysAlisRED (Oxford Diffraction, 2004)'
+_computing_data_collection       'CrysAlisCCD (Oxford Diffraction, 2004)'
+_computing_data_reduction
+'CrysAlisRED (Oxford Diffraction, 2004); REDSHABS (Katrusiak, A. 2003)'
+_computing_molecular_graphics    'SHELXTL (Sheldrick, 1990)'
+_computing_publication_material  'SHELXL--97 (Sheldrick, 1997)'
+_computing_structure_refinement  'SHELXL--97 (Sheldrick, 1997)'
+_computing_structure_solution    'SHELXS--97 (Sheldrick, 1997)'
+_diffrn_ambient_environment      'diamond-anvil cell'
+_diffrn_ambient_pressure         630000
+_diffrn_ambient_temperature      295(2)
+_diffrn_measured_fraction_theta_full 0.521
+_diffrn_measured_fraction_theta_max 0.521
+_diffrn_measurement_device_type  'KM-4 CCD'
+_diffrn_measurement_method       '\f- and \w-scans'
+_diffrn_radiation_monochromator  graphite
+_diffrn_radiation_source         'fine-focus sealed tube'
+_diffrn_radiation_type           MoK\a
+_diffrn_radiation_wavelength     0.71073
+_diffrn_reflns_av_R_equivalents  0.1126
+_diffrn_reflns_av_sigmaI/netI    0.0531
+_diffrn_reflns_limit_h_max       5
+_diffrn_reflns_limit_h_min       -5
+_diffrn_reflns_limit_k_max       5
+_diffrn_reflns_limit_k_min       -5
+_diffrn_reflns_limit_l_max       11
+_diffrn_reflns_limit_l_min       -11
+_diffrn_reflns_number            3408
+_diffrn_reflns_theta_full        24.96
+_diffrn_reflns_theta_max         24.96
+_diffrn_reflns_theta_min         2.95
+_diffrn_standards_decay_%        0
+_diffrn_standards_interval_count 0
+_diffrn_standards_number         0
+_exptl_absorpt_coefficient_mu    0.097
+_exptl_absorpt_correction_T_max  0.87
+_exptl_absorpt_correction_T_min  0.34
+_exptl_absorpt_correction_type   numerical
+_exptl_absorpt_process_details
+;
+Correction for absorption of the diamond-anvil cell and the sample
+were made using program REDSHABS (Katrusiak, A. (2003) REDSHABS. Adam
+Mickiewicz University Pozna\'n; Katrusiak, A. (2004) Z. Kristallogr.
+219, 461-467).
+;
+_exptl_crystal_colour            colourless
+_exptl_crystal_density_diffrn    1.243
+_exptl_crystal_density_method    'not measured'
+_exptl_crystal_description       cylinder
+_exptl_crystal_F_000             200
+_exptl_crystal_size_max          0.41
+_exptl_crystal_size_mid          0.41
+_exptl_crystal_size_min          0.21
+_refine_diff_density_max         0.419
+_refine_diff_density_min         -0.358
+_refine_diff_density_rms         0.085
+_refine_ls_abs_structure_details 'Flack H D (1983), Acta Cryst. A39, 876-881'
+_refine_ls_abs_structure_Flack   2(10)
+_refine_ls_extinction_method     none
+_refine_ls_goodness_of_fit_ref   1.157
+_refine_ls_hydrogen_treatment    constr
+_refine_ls_matrix_type           full
+_refine_ls_number_parameters     55
+_refine_ls_number_reflns         432
+_refine_ls_number_restraints     36
+_refine_ls_restrained_S_all      1.262
+_refine_ls_R_factor_all          0.1224
+_refine_ls_R_factor_gt           0.1013
+_refine_ls_shift/su_max          0.000
+_refine_ls_shift/su_mean         0.000
+_refine_ls_structure_factor_coef Fsqd
+_refine_ls_weighting_details
+'calc w=1/[\s^2^(Fo^2^)+(0.1970P)^2^+0.2270P] where P=(Fo^2^+2Fc^2^)/3'
+_refine_ls_weighting_scheme      calc
+_refine_ls_wR_factor_gt          0.2764
+_refine_ls_wR_factor_ref         0.3079
+_reflns_number_gt                315
+_reflns_number_total             432
+_reflns_threshold_expression     >2sigma(I)
+_cod_data_source_file            c2ce25372k.txt
+_cod_data_source_block           23butdiol_0.63GPa
+_cod_original_cell_volume        481.46(17)
+_cod_database_code               7208659
+loop_
+_symmetry_equiv_pos_as_xyz
+'x, y, z'
+'-x+1/2, -y, z+1/2'
+'-x, y+1/2, -z+1/2'
+'x+1/2, -y+1/2, -z'
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+_atom_site_symmetry_multiplicity
+_atom_site_calc_flag
+_atom_site_refinement_flags
+O1 O 0.3021(14) -0.0553(14) 0.2008(5) 0.050(2) Uani 1 1 d U
+H1 H 0.1565 -0.0944 0.1981 0.075 Uiso 1 1 calc R
+O2 O 0.1908(13) 0.3147(14) 0.2968(6) 0.042(2) Uani 1 1 d U
+H2 H 0.3404 0.3492 0.2985 0.050 Uiso 1 1 calc R
+C1 C 0.0627(19) 0.130(2) 0.0762(9) 0.051(3) Uani 1 1 d U
+H11 H 0.0821 0.0703 0.0003 0.077 Uiso 1 1 calc R
+H12 H 0.0901 0.2274 0.0517 0.077 Uiso 1 1 calc R
+H13 H -0.1129 0.1187 0.1117 0.077 Uiso 1 1 calc R
+C2 C 0.2711(15) 0.0864(18) 0.1812(6) 0.025(2) Uani 1 1 d U
+H21 H 0.4428 0.1215 0.1493 0.030 Uiso 1 1 calc R
+C3 C 0.2070(18) 0.175(2) 0.3120(7) 0.031(3) Uani 1 1 d U
+H31 H 0.3494 0.1560 0.3752 0.038 Uiso 1 1 calc R
+C4 C -0.0574(18) 0.1148(19) 0.3707(9) 0.048(3) Uani 1 1 d U
+H41 H -0.1129 0.1733 0.4430 0.072 Uiso 1 1 calc R
+H42 H -0.0287 0.0193 0.4009 0.072 Uiso 1 1 calc R
+H43 H -0.1929 0.1150 0.3043 0.072 Uiso 1 1 calc R
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_23
+_atom_site_aniso_U_13
+_atom_site_aniso_U_12
+O1 0.039(3) 0.053(4) 0.059(3) 0.007(3) -0.006(2) -0.005(3)
+O2 0.028(3) 0.042(4) 0.056(3) -0.003(3) 0.003(2) -0.002(3)
+C1 0.042(4) 0.059(7) 0.053(4) 0.009(4) -0.001(3) -0.004(5)
+C2 0.020(3) 0.025(4) 0.029(3) -0.004(3) 0.003(2) -0.002(3)
+C3 0.022(3) 0.034(4) 0.038(3) 0.002(3) -0.005(2) 0.000(3)
+C4 0.036(4) 0.059(7) 0.050(4) -0.005(4) 0.007(3) -0.002(5)
+loop_
+_atom_type_symbol
+_atom_type_description
+_atom_type_scat_dispersion_real
+_atom_type_scat_dispersion_imag
+_atom_type_scat_source
+C C 0.0033 0.0016 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+H H 0.0000 0.0000 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+O O 0.0106 0.0060 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+loop_
+_geom_angle_atom_site_label_1
+_geom_angle_atom_site_label_2
+_geom_angle_atom_site_label_3
+_geom_angle
+C2 O1 H1 109.5
+C3 O2 H2 109.5
+C2 C1 H11 109.5
+C2 C1 H12 109.5
+H11 C1 H12 109.5
+C2 C1 H13 109.5
+H11 C1 H13 109.5
+H12 C1 H13 109.5
+O1 C2 C1 115.9(9)
+O1 C2 C3 114.3(8)
+C1 C2 C3 107.5(10)
+O1 C2 H21 106.1
+C1 C2 H21 106.1
+C3 C2 H21 106.1
+O2 C3 C4 110.6(11)
+O2 C3 C2 115.5(9)
+C4 C3 C2 107.5(11)
+O2 C3 H31 107.7
+C4 C3 H31 107.7
+C2 C3 H31 107.7
+C3 C4 H41 109.5
+C3 C4 H42 109.5
+H41 C4 H42 109.5
+C3 C4 H43 109.5
+H41 C4 H43 109.5
+H42 C4 H43 109.5
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+O1 C2 1.356(17)
+O1 H1 0.8200
+O2 C3 1.324(14)
+O2 H2 0.8200
+C1 C2 1.552(13)
+C1 H11 0.9600
+C1 H12 0.9600
+C1 H13 0.9600
+C2 C3 1.604(16)
+C2 H21 0.9800
+C3 C4 1.564(16)
+C3 H31 0.9800
+C4 H41 0.9600
+C4 H42 0.9600
+C4 H43 0.9600
+loop_
+_geom_torsion_atom_site_label_1
+_geom_torsion_atom_site_label_2
+_geom_torsion_atom_site_label_3
+_geom_torsion_atom_site_label_4
+_geom_torsion
+O1 C2 C3 O2 176.3(8)
+C1 C2 C3 O2 -53.5(11)
+O1 C2 C3 C4 -59.8(11)
+C1 C2 C3 C4 70.4(14)
+loop_
+_refln_index_h
+_refln_index_k
+_refln_index_l
+_refln_F_squared_calc
+_refln_F_squared_meas
+_refln_F_squared_sigma
+_refln_observed_status
+2 0 0 1232.48 1510.93 5.87 o
+4 0 0 98.33 134.61 4.08 o
+1 1 0 1451.22 1700.96 11.31 o
+2 1 0 243.59 350.54 3.00 o
+3 1 0 172.68 231.69 2.24 o
+4 1 0 156.64 216.96 3.85 o
+5 1 0 11.71 11.90 2.67 o
+2 2 0 0.80 0.21 1.89 o
+3 2 0 24.51 26.24 2.11 o
+4 2 0 5.39 5.75 1.89 o
+5 2 0 3.77 5.11 3.09 o
+4 3 0 0.00 1.36 2.35 o
+5 3 0 7.98 5.47 7.93 o
+1 0 1 720.68 833.52 33.54 o
+2 0 1 52.98 65.65 1.82 o
+3 0 1 0.64 1.71 0.56 o
+4 0 1 229.14 331.21 4.92 o
+5 0 1 1.20 2.40 2.91 o
+-5 1 1 8.53 17.22 3.12 o
+-4 1 1 62.22 106.99 3.70 o
+-3 1 1 141.53 222.14 2.15 o
+-2 1 1 432.38 554.39 2.96 o
+-1 1 1 1313.35 1370.44 29.50 o
+0 1 1 83.24 72.89 1.54 o
+1 1 1 1313.40 1406.84 34.85 o
+2 1 1 432.57 562.51 2.40 o
+3 1 1 141.59 217.84 2.19 o
+4 1 1 62.21 101.54 3.48 o
+5 1 1 8.55 17.88 3.24 o
+-5 2 1 121.92 178.37 6.98 o
+-4 2 1 25.63 28.30 3.07 o
+-3 2 1 405.80 473.65 4.08 o
+-2 2 1 126.61 103.52 3.38 o
+2 2 1 126.65 103.54 5.99 o
+3 2 1 406.30 470.05 4.06 o
+4 2 1 25.62 26.76 2.15 o
+5 2 1 121.67 181.77 6.96 o
+-5 3 1 7.05 16.22 8.62 o
+-4 3 1 2.78 0.43 2.11 o
+-3 3 1 2.28 2.80 9.86 o
+3 3 1 2.32 0.87 2.31 o
+4 3 1 2.81 0.22 4.74 o
+5 3 1 7.08 5.25 5.71 o
+0 0 2 3826.03 4267.95 174.66 o
+1 0 2 200.13 240.04 5.91 o
+2 0 2 2065.22 2561.21 78.08 o
+3 0 2 102.34 151.31 4.55 o
+4 0 2 53.24 87.51 3.25 o
+5 0 2 69.63 80.11 4.34 o
+-5 1 2 32.72 34.58 3.20 o
+-4 1 2 143.48 173.78 5.14 o
+-3 1 2 183.19 256.15 12.67 o
+-2 1 2 343.12 425.09 26.27 o
+-1 1 2 455.19 473.06 19.68 o
+0 1 2 549.83 517.01 4.88 o
+1 1 2 455.22 448.61 24.22 o
+2 1 2 342.74 395.12 30.16 o
+3 1 2 183.09 259.41 11.54 o
+4 1 2 143.44 168.81 4.02 o
+5 1 2 32.72 34.38 3.59 o
+-5 2 2 1.32 5.46 2.60 o
+-4 2 2 41.36 39.11 3.16 o
+-3 2 2 76.90 85.94 5.95 o
+-2 2 2 211.55 266.71 10.24 o
+-1 2 2 930.21 826.30 24.00 o
+0 2 2 0.70 1.12 1.18 o
+1 2 2 929.76 865.49 28.45 o
+2 2 2 211.53 273.82 14.22 o
+3 2 2 76.99 94.40 12.26 o
+4 2 2 41.42 46.01 3.49 o
+5 2 2 1.32 4.43 2.18 o
+-5 3 2 1.85 5.80 4.87 o
+-4 3 2 2.85 6.36 2.26 o
+-3 3 2 34.93 51.36 5.49 o
+-2 3 2 32.67 18.37 9.49 o
+3 3 2 34.81 34.89 20.48 o
+4 3 2 2.84 2.22 2.93 o
+5 3 2 1.84 6.91 5.94 o
+1 0 3 544.90 563.74 2.70 o
+2 0 3 390.54 459.97 16.56 o
+3 0 3 55.98 70.43 1.93 o
+4 0 3 358.19 503.83 5.33 o
+5 0 3 7.32 7.53 2.04 o
+-5 1 3 21.24 28.97 3.05 o
+-4 1 3 20.88 28.63 4.67 o
+-3 1 3 65.99 85.16 2.13 o
+-2 1 3 163.90 144.30 5.88 o
+-1 1 3 412.35 448.63 4.69 o
+0 1 3 1687.21 1540.17 8.12 o
+1 1 3 412.07 454.47 4.33 o
+2 1 3 164.03 149.84 10.05 o
+3 1 3 66.05 89.10 2.71 o
+4 1 3 20.86 29.04 3.28 o
+5 1 3 21.26 27.90 3.00 o
+-5 2 3 38.44 55.42 6.47 o
+-4 2 3 2.76 3.64 1.60 o
+-3 2 3 66.06 78.11 2.79 o
+-2 2 3 45.18 46.37 1.23 o
+-1 2 3 64.39 65.06 2.51 o
+0 2 3 1511.64 1455.77 28.51 o
+1 2 3 64.34 61.67 3.46 o
+2 2 3 45.13 47.95 2.48 o
+3 2 3 66.06 73.55 3.20 o
+4 2 3 2.75 4.97 1.92 o
+5 2 3 38.33 48.40 4.56 o
+-5 3 3 2.81 5.09 4.84 o
+-4 3 3 17.07 17.92 5.51 o
+-3 3 3 33.65 33.26 2.78 o
+-2 3 3 68.29 60.88 2.74 o
+-1 3 3 85.84 65.77 8.12 o
+0 3 3 16.12 9.38 2.27 o
+1 3 3 85.66 65.53 7.46 o
+2 3 3 68.43 58.54 3.16 o
+3 3 3 33.65 31.99 3.25 o
+4 3 3 17.11 7.25 4.65 o
+5 3 3 2.84 5.52 4.56 o
+-5 4 3 21.56 7.41 8.98 o
+-4 4 3 12.41 11.97 2.76 o
+-3 4 3 18.60 20.48 3.37 o
+0 0 4 57.95 85.90 4.81 o
+1 0 4 6.01 1.75 0.67 o
+2 0 4 233.66 259.27 12.46 o
+3 0 4 47.23 51.01 2.14 o
+4 0 4 0.02 0.45 1.37 o
+5 0 4 1.59 1.13 2.03 o
+-5 1 4 38.91 54.93 3.89 o
+-4 1 4 18.09 14.74 2.51 o
+-3 1 4 79.69 81.83 2.71 o
+-2 1 4 431.59 428.01 16.49 o
+-1 1 4 241.35 253.26 4.10 o
+0 1 4 524.59 356.33 4.68 o
+1 1 4 241.43 256.04 6.26 o
+2 1 4 431.76 418.09 10.58 o
+3 1 4 79.79 82.86 3.12 o
+4 1 4 18.03 16.37 2.34 o
+5 1 4 38.90 53.93 4.57 o
+-5 2 4 1.54 2.60 3.39 o
+-4 2 4 19.66 24.30 4.34 o
+-3 2 4 110.71 109.17 3.68 o
+-2 2 4 2.09 1.81 0.81 o
+-1 2 4 1155.97 975.98 33.91 o
+0 2 4 3.15 0.39 1.19 o
+1 2 4 1155.67 919.93 55.98 o
+2 2 4 2.12 1.83 0.72 o
+3 2 4 110.83 111.63 4.55 o
+4 2 4 19.63 22.28 5.21 o
+5 2 4 1.54 2.54 2.97 o
+-5 3 4 8.61 13.24 4.56 o
+-4 3 4 8.01 8.79 3.76 o
+-3 3 4 44.09 43.00 3.80 o
+-2 3 4 22.10 23.18 2.57 o
+-1 3 4 64.24 94.59 15.66 o
+0 3 4 79.22 52.17 2.90 o
+1 3 4 64.39 68.92 10.33 o
+2 3 4 22.05 21.95 1.79 o
+3 3 4 44.11 41.16 4.81 o
+4 3 4 8.00 7.84 2.78 o
+5 3 4 8.58 7.11 4.88 o
+-5 4 4 5.16 16.42 10.77 o
+-4 4 4 0.88 18.50 18.76 o
+-3 4 4 29.71 19.18 5.78 o
+-2 4 4 21.46 5.52 2.84 o
+2 4 4 21.48 8.31 4.13 o
+3 4 4 29.79 19.68 8.27 o
+1 0 5 6.25 13.59 1.67 o
+2 0 5 521.52 580.00 22.01 o
+3 0 5 0.99 3.34 0.98 o
+4 0 5 120.50 134.56 7.74 o
+5 0 5 0.00 0.18 3.40 o
+-5 1 5 18.22 23.48 4.37 o
+-4 1 5 13.80 21.45 2.88 o
+-3 1 5 101.56 134.12 3.46 o
+-2 1 5 181.62 145.44 8.63 o
+-1 1 5 13.51 11.54 2.31 o
+0 1 5 620.67 570.60 2.41 o
+1 1 5 13.48 12.02 3.34 o
+2 1 5 181.83 146.39 8.69 o
+3 1 5 101.50 139.23 3.32 o
+4 1 5 13.78 16.87 3.24 o
+5 1 5 18.24 23.80 4.19 o
+-5 2 5 5.55 6.34 3.52 o
+-4 2 5 9.30 6.21 3.62 o
+-3 2 5 35.92 48.85 5.06 o
+-2 2 5 26.10 30.04 2.21 o
+-1 2 5 1.91 1.24 1.21 o
+0 2 5 119.01 110.05 12.17 o
+1 2 5 1.91 3.17 1.55 o
+2 2 5 26.09 29.75 2.14 o
+3 2 5 35.91 51.42 5.01 o
+4 2 5 9.31 9.05 2.99 o
+5 2 5 5.56 7.20 4.63 o
+-5 3 5 3.02 6.63 3.75 o
+-4 3 5 32.83 26.91 5.90 o
+-3 3 5 62.97 77.25 6.19 o
+-2 3 5 6.50 4.34 1.36 o
+-1 3 5 2.88 3.07 0.75 o
+0 3 5 3.19 1.57 0.60 o
+1 3 5 2.84 3.16 0.86 o
+2 3 5 6.48 7.91 1.82 o
+3 3 5 62.71 68.12 4.76 o
+4 3 5 32.86 27.55 4.73 o
+5 3 5 3.03 2.40 3.32 o
+-5 4 5 12.04 5.69 6.03 o
+-4 4 5 6.73 4.18 5.58 o
+-3 4 5 1.22 1.89 2.25 o
+-2 4 5 17.48 20.78 2.92 o
+-1 4 5 49.29 70.66 7.38 o
+0 4 5 3.08 1.31 1.87 o
+1 4 5 49.27 54.29 12.27 o
+2 4 5 17.48 16.57 3.17 o
+3 4 5 1.20 3.43 4.99 o
+4 4 5 6.73 4.24 4.70 o
+0 0 6 167.52 128.10 7.10 o
+1 0 6 0.85 0.56 0.93 o
+2 0 6 230.87 238.09 3.48 o
+3 0 6 7.44 4.57 1.45 o
+4 0 6 17.04 10.06 2.86 o
+5 0 6 0.18 7.67 3.79 o
+-5 1 6 24.49 37.06 5.34 o
+-4 1 6 29.47 37.56 3.71 o
+-3 1 6 118.42 138.71 4.87 o
+-2 1 6 32.62 16.63 2.17 o
+-1 1 6 65.46 50.48 4.47 o
+0 1 6 495.96 442.15 3.58 o
+1 1 6 65.52 56.35 3.67 o
+2 1 6 32.67 9.46 2.25 o
+3 1 6 118.50 145.67 8.84 o
+4 1 6 29.45 37.93 2.79 o
+5 1 6 24.51 41.14 4.59 o
+-5 2 6 0.36 1.03 3.67 o
+-4 2 6 16.16 24.44 3.86 o
+-3 2 6 62.21 59.17 3.70 o
+-2 2 6 3.43 3.54 1.34 o
+-1 2 6 295.13 234.84 9.49 o
+0 2 6 1.71 0.14 1.03 o
+1 2 6 295.39 240.10 9.21 o
+2 2 6 3.42 2.66 1.23 o
+3 2 6 62.17 59.05 3.56 o
+4 2 6 16.14 24.41 3.40 o
+5 2 6 0.36 0.94 3.69 o
+-4 3 6 3.16 5.88 2.62 o
+-3 3 6 21.03 25.62 3.58 o
+-2 3 6 17.97 13.80 2.54 o
+-1 3 6 56.27 47.13 3.45 o
+0 3 6 12.53 10.64 2.59 o
+1 3 6 56.34 52.40 3.06 o
+2 3 6 17.96 11.69 2.50 o
+3 3 6 21.15 16.72 3.50 o
+4 3 6 3.16 3.31 2.73 o
+-4 4 6 3.65 3.11 3.50 o
+-3 4 6 5.10 6.18 3.70 o
+-2 4 6 27.28 29.51 3.94 o
+-1 4 6 3.58 2.36 1.20 o
+0 4 6 2.61 4.07 1.26 o
+1 4 6 3.58 2.81 1.50 o
+2 4 6 27.26 24.37 3.51 o
+3 4 6 5.08 4.79 3.53 o
+4 4 6 3.63 3.65 5.34 o
+-3 5 6 53.82 40.47 5.66 o
+1 0 7 12.16 11.84 1.92 o
+2 0 7 47.10 38.90 2.28 o
+3 0 7 7.88 5.94 2.36 o
+4 0 7 56.53 62.13 4.85 o
+-4 1 7 12.95 14.43 3.16 o
+-3 1 7 36.61 33.38 3.61 o
+-2 1 7 108.36 109.39 6.82 o
+-1 1 7 111.66 123.03 3.54 o
+0 1 7 28.11 6.47 2.08 o
+1 1 7 111.61 112.76 3.45 o
+2 1 7 108.24 107.79 10.73 o
+3 1 7 36.60 32.48 4.39 o
+4 1 7 12.94 11.67 2.91 o
+-4 2 7 12.21 11.08 2.89 o
+-3 2 7 28.70 28.26 4.12 o
+-2 2 7 46.03 56.88 6.44 o
+-1 2 7 15.74 11.21 2.75 o
+0 2 7 0.00 3.55 1.25 o
+1 2 7 15.73 10.91 2.22 o
+2 2 7 46.05 59.21 4.63 o
+3 2 7 28.69 23.54 3.61 o
+4 2 7 12.22 7.92 2.78 o
+-4 3 7 3.18 7.78 2.61 o
+-3 3 7 5.14 5.92 2.95 o
+-2 3 7 20.51 25.94 2.96 o
+-1 3 7 52.30 41.74 3.23 o
+0 3 7 6.83 8.35 1.95 o
+1 3 7 52.16 42.39 3.51 o
+2 3 7 20.55 25.75 4.26 o
+3 3 7 5.09 7.57 2.48 o
+4 3 7 3.19 3.65 2.45 o
+-4 4 7 2.01 3.97 2.65 o
+-3 4 7 1.81 7.98 3.35 o
+-2 4 7 1.10 3.00 2.14 o
+-1 4 7 63.07 50.97 6.28 o
+0 4 7 0.36 0.53 1.65 o
+1 4 7 62.97 58.33 6.73 o
+2 4 7 1.10 4.87 2.19 o
+3 4 7 1.84 4.19 2.70 o
+4 4 7 2.00 5.52 3.02 o
+-4 5 7 9.95 8.83 10.07 o
+-3 5 7 14.21 9.85 6.09 o
+-2 5 7 6.27 0.03 3.00 o
+-1 5 7 18.67 2.95 1.84 o
+0 5 7 12.89 6.90 1.75 o
+1 5 7 18.59 2.45 2.45 o
+2 5 7 6.27 8.97 8.76 o
+0 0 8 343.70 334.73 12.73 o
+1 0 8 4.66 4.02 1.37 o
+2 0 8 216.36 179.82 5.79 o
+3 0 8 2.98 1.34 4.99 o
+4 0 8 19.84 12.23 3.88 o
+-4 1 8 3.02 2.09 2.75 o
+-3 1 8 7.48 7.43 3.78 o
+-2 1 8 50.85 54.25 3.66 o
+-1 1 8 103.44 106.97 7.27 o
+0 1 8 32.93 29.39 4.09 o
+1 1 8 103.53 115.06 8.20 o
+2 1 8 50.75 56.03 3.97 o
+3 1 8 7.49 6.86 4.72 o
+4 1 8 2.99 2.11 2.48 o
+-4 2 8 3.65 4.47 2.71 o
+-3 2 8 4.83 14.15 3.57 o
+-2 2 8 13.13 7.73 2.91 o
+-1 2 8 19.40 15.38 3.47 o
+0 2 8 1.02 8.83 2.89 o
+1 2 8 19.39 16.19 3.24 o
+2 2 8 13.12 8.70 2.73 o
+3 2 8 4.81 6.57 2.79 o
+4 2 8 3.65 4.02 2.67 o
+-4 3 8 14.89 8.52 2.94 o
+-3 3 8 5.44 5.78 3.23 o
+-2 3 8 5.48 11.81 2.90 o
+-1 3 8 8.92 9.34 2.26 o
+0 3 8 16.30 13.92 2.37 o
+1 3 8 8.99 7.95 2.51 o
+2 3 8 5.50 12.49 2.91 o
+3 3 8 5.44 6.30 3.12 o
+4 3 8 14.91 15.01 3.44 o
+-3 4 8 3.38 5.46 2.99 o
+-2 4 8 13.16 19.28 5.03 o
+-1 4 8 4.09 6.50 2.72 o
+0 4 8 6.91 8.74 3.04 o
+1 4 8 4.13 5.51 2.48 o
+2 4 8 13.13 11.79 3.33 o
+3 4 8 3.43 6.30 3.10 o
+-3 5 8 6.35 10.24 9.03 o
+-2 5 8 15.48 11.40 4.91 o
+-1 5 8 29.95 14.76 3.34 o
+0 5 8 6.52 5.37 2.24 o
+1 5 8 30.01 22.55 4.48 o
+2 5 8 15.52 12.35 5.32 o
+3 5 8 6.33 3.83 5.30 o
+2 0 9 0.03 0.00 5.93 o
+3 0 9 1.23 5.44 4.26 o
+-3 1 9 5.92 5.52 3.00 o
+-2 1 9 0.52 3.22 3.28 o
+-1 1 9 64.76 66.03 5.73 o
+0 1 9 24.00 22.24 3.47 o
+1 1 9 64.77 67.88 6.79 o
+2 1 9 0.51 3.85 3.94 o
+3 1 9 5.91 3.75 3.21 o
+-3 2 9 24.19 20.58 5.56 o
+-2 2 9 2.71 9.19 2.84 o
+-1 2 9 9.94 11.07 3.00 o
+0 2 9 0.02 5.42 1.95 o
+1 2 9 9.91 5.72 2.53 o
+2 2 9 2.73 10.42 4.01 o
+3 2 9 24.15 16.92 4.31 o
+-3 3 9 12.15 13.93 4.34 o
+-2 3 9 11.32 12.92 3.39 o
+-1 3 9 0.20 1.25 2.61 o
+0 3 9 33.40 34.41 6.64 o
+1 3 9 0.19 0.80 2.28 o
+2 3 9 11.34 9.42 3.03 o
+3 3 9 12.14 12.20 4.27 o
+-3 4 9 11.18 4.99 3.23 o
+-2 4 9 0.57 3.94 2.95 o
+-1 4 9 29.06 22.62 4.70 o
+0 4 9 1.33 6.68 3.59 o
+1 4 9 29.07 19.90 3.16 o
+2 4 9 0.57 2.96 2.49 o
+3 4 9 11.17 6.83 3.53 o
+-2 5 9 5.84 2.38 3.74 o
+-1 5 9 27.78 19.66 5.53 o
+0 5 9 0.68 4.22 3.27 o
+1 5 9 27.81 19.66 6.27 o
+2 5 9 5.83 3.14 4.94 o
+-3 1 10 9.83 9.31 4.85 o
+-2 1 10 11.05 10.43 3.39 o
+-1 1 10 21.20 14.61 3.98 o
+0 1 10 26.61 34.89 4.44 o
+1 1 10 21.19 20.90 4.46 o
+2 1 10 11.05 7.98 3.86 o
+3 1 10 9.85 9.77 3.99 o
+-3 2 10 3.35 4.62 4.01 o
+-2 2 10 3.20 5.32 3.02 o
+-1 2 10 4.06 5.54 2.46 o
+0 2 10 0.10 2.78 3.81 o
+1 2 10 4.07 6.41 2.69 o
+2 2 10 3.21 2.70 3.93 o
+3 2 10 3.35 5.60 4.23 o
+-2 3 10 9.78 7.79 3.66 o
+-1 3 10 8.76 6.02 2.60 o
+0 3 10 0.68 6.56 3.86 o
+1 3 10 8.70 10.80 3.41 o
+2 3 10 9.77 8.08 4.64 o
+-2 4 10 1.66 4.73 4.43 o
+-1 4 10 4.48 4.98 3.08 o
+0 4 10 0.33 5.93 3.07 o
+1 4 10 4.50 5.23 2.55 o
+2 4 10 1.66 6.76 3.41 o
+-2 5 10 4.86 3.39 3.09 o
+-1 5 10 6.74 1.07 3.45 o
+0 5 10 51.52 34.31 7.26 o
+1 5 10 6.71 2.12 4.88 o
+2 5 10 4.87 11.77 8.26 o
+-2 1 11 8.66 12.57 8.87 o
+-1 1 11 3.22 5.70 7.68 o
+0 1 11 0.93 8.71 5.04 o
+1 1 11 3.23 3.76 4.01 o
+2 1 11 8.68 13.34 6.20 o
+-2 2 11 0.96 0.35 4.50 o
+-1 2 11 0.88 0.00 3.49 o
+0 2 11 8.52 7.53 3.10 o
+1 2 11 0.87 0.05 2.59 o
+2 2 11 0.95 0.38 3.43 o
+-1 3 11 9.69 9.19 4.01 o
+0 3 11 22.87 17.09 4.01 o
+1 3 11 9.70 13.34 3.68 o
+-1 4 11 11.92 7.47 3.29 o
+0 4 11 0.08 8.75 3.71 o
+1 4 11 11.92 10.66 4.20 o

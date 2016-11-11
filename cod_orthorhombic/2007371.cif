@@ -1,0 +1,212 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-19 16:29:56 +0200 (Fri, 19 Feb 2016) $
+#$Revision: 176759 $
+#$URL: svn://www.crystallography.net/cod/cif/2/00/73/2007371.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/. The original data for this entry
+# were provided by IUCr Journals, http://journals.iucr.org/.
+#
+# The file may be used within the scientific community so long as
+# proper attribution is given to the journal article from which the
+# data were obtained.
+#
+data_2007371
+loop_
+_publ_author_name
+'Boese, Roland'
+'Weiss, Hans-Christoph'
+_publ_section_title
+;
+ 1,2-Ethanediol (Ethylene Glycol) at 130K
+;
+_journal_issue                   6
+_journal_name_full               'Acta Crystallographica Section C'
+_journal_page_first              IUC9800024
+_journal_paper_doi               10.1107/S0108270198099624
+_journal_volume                  54
+_journal_year                    1998
+_chemical_formula_sum            'C2 H6 O2'
+_chemical_formula_weight         62.07
+_chemical_name_common            Ethane-1,2-diol
+_chemical_name_systematic
+;
+Ethane-1,2-diol
+;
+_space_group_IT_number           19
+_symmetry_cell_setting           orthorhombic
+_symmetry_space_group_name_Hall  'P 2ac 2ab'
+_symmetry_space_group_name_H-M   'P 21 21 21'
+_audit_creation_method           SHELXL
+_cell_angle_alpha                90.00
+_cell_angle_beta                 90.00
+_cell_angle_gamma                90.00
+_cell_formula_units_Z            4
+_cell_length_a                   5.013(3)
+_cell_length_b                   6.915(3)
+_cell_length_c                   9.271(4)
+_cell_measurement_reflns_used    50
+_cell_measurement_temperature    130(2)
+_cell_measurement_theta_max      12.5
+_cell_measurement_theta_min      10
+_cell_volume                     321.4(3)
+_computing_cell_refinement       P3/P4
+_computing_data_collection       'P3/P4 (Siemens, 1989-1991)'
+_computing_data_reduction        'XDISK (Siemens, 1991)'
+_computing_molecular_graphics    SHELXTL
+_computing_publication_material  SHELXTL
+_computing_structure_refinement  SHELXTL
+_computing_structure_solution    'SHELXTL (Siemens, 1995)'
+_diffrn_ambient_temperature      130(2)
+_diffrn_measurement_device       'Nicolet R3m/V four circle diffractometer'
+_diffrn_measurement_method       'Wyckoff scan mode'
+_diffrn_radiation_monochromator  graphite
+_diffrn_radiation_source         'fine-focus sealed tube'
+_diffrn_radiation_type           MoK\a
+_diffrn_radiation_wavelength     0.71073
+_diffrn_reflns_av_R_equivalents  0.1029
+_diffrn_reflns_av_sigmaI/netI    0.0673
+_diffrn_reflns_limit_h_max       6
+_diffrn_reflns_limit_h_min       -7
+_diffrn_reflns_limit_k_max       9
+_diffrn_reflns_limit_k_min       -9
+_diffrn_reflns_limit_l_max       12
+_diffrn_reflns_limit_l_min       -11
+_diffrn_reflns_number            2843
+_diffrn_reflns_theta_max         29.96
+_diffrn_reflns_theta_min         3.68
+_diffrn_standards_decay_%        1
+_diffrn_standards_interval_count 100
+_diffrn_standards_number         2
+_exptl_absorpt_coefficient_mu    0.114
+_exptl_absorpt_correction_type   none
+_exptl_crystal_colour            colourless
+_exptl_crystal_density_diffrn    1.283
+_exptl_crystal_description       cylindrical
+_exptl_crystal_F_000             136
+_exptl_crystal_size_rad          0.3
+_refine_diff_density_max         0.430
+_refine_diff_density_min         -0.283
+_refine_ls_extinction_method     none
+_refine_ls_goodness_of_fit_all   1.121
+_refine_ls_goodness_of_fit_obs   1.117
+_refine_ls_hydrogen_treatment    refall
+_refine_ls_matrix_type           full
+_refine_ls_number_parameters     61
+_refine_ls_number_reflns         927
+_refine_ls_number_restraints     0
+_refine_ls_restrained_S_all      1.121
+_refine_ls_restrained_S_obs      1.117
+_refine_ls_R_factor_all          0.0544
+_refine_ls_R_factor_obs          .0527
+_refine_ls_shift/esd_max         0.000
+_refine_ls_shift/esd_mean        0.000
+_refine_ls_structure_factor_coef Fsqd
+_refine_ls_weighting_details
+'w=1/[\s^2^(Fo^2^)+(0.0804P)^2^+0.0246P] where P=(Fo^2^+2Fc^2^)/3'
+_refine_ls_weighting_scheme      calc
+_refine_ls_wR_factor_all         0.1284
+_refine_ls_wR_factor_obs         .1254
+_reflns_number_observed          890
+_reflns_number_total             927
+_reflns_observed_criterion       >2sigma(I)
+_cod_data_source_file            qa0040.cif
+_cod_data_source_block           structure
+_cod_depositor_comments
+;
+The following automatic conversions were performed:
+
+'_refine_ls_weighting_scheme' value 'calc
+w=1/[\s^2^(Fo^2^)+(0.0804P)^2^+0.0246P] where P=(Fo^2^+2Fc^2^)/3' was
+changed to 'calc'. New tag '_refine_ls_weighting_details' was
+created. The value of the new tag was set to
+'w=1/[\s^2^(Fo^2^)+(0.0804P)^2^+0.0246P] where P=(Fo^2^+2Fc^2^)/3'.
+
+Automatic conversion script
+Id: cif_fix_values 3143 2015-03-26 13:38:13Z robertas 
+;
+_cod_database_code               2007371
+loop_
+_symmetry_equiv_pos_as_xyz
+'x, y, z'
+'-x+1/2, -y, z+1/2'
+'-x, y+1/2, -z+1/2'
+'x+1/2, -y+1/2, -z'
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+O1 .0261(5) .0225(5) .0321(5) .0008(4) -.0078(3) -.0055(3)
+O2 .0246(5) .0194(4) .0226(4) -.0009(3) .0028(4) -.0008(3)
+C1 .0223(6) .0268(6) .0223(5) -.0007(5) -.0002(4) -.0030(4)
+C2 .0218(5) .0210(5) .0251(5) .0040(4) -.0023(4) -.0011(4)
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_thermal_displace_type
+_atom_site_calc_flag
+_atom_site_refinement_flags
+_atom_site_occupancy
+_atom_site_disorder_group
+_atom_site_type_symbol
+O1 -.2735(2) .50075(14) -.14225(10) .0269(3) Uani d . 1 . O
+H1 -.341(5) .615(3) -.123(2) .022(4) Uiso d . 1 . H
+O2 -.0051(2) .64400(12) .11378(9) .0222(3) Uani d . 1 . O
+H2 -.065(4) .599(4) .191(2) .031(5) Uiso d . 1 . H
+C1 .0089(3) .5002(2) -.12257(11) .0238(3) Uani d . 1 . C
+H1A .086(5) .625(3) -.161(2) .029(5) Uiso d . 1 . H
+H1B .078(5) .388(4) -.172(3) .027(5) Uiso d . 1 . H
+C2 .0856(2) .4789(2) .03459(13) .0226(3) Uani d . 1 . C
+H2A .263(4) .467(2) .040(2) .020(4) Uiso d . 1 . H
+H2B .005(5) .369(3) .076(2) .021(4) Uiso d . 1 . H
+loop_
+_atom_type_symbol
+_atom_type_description
+_atom_type_scat_dispersion_real
+_atom_type_scat_dispersion_imag
+_atom_type_scat_source
+C C 0.0033 0.0016 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+H H 0.0000 0.0000 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+O O 0.0106 0.0060 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+loop_
+_geom_angle_atom_site_label_1
+_geom_angle_atom_site_label_2
+_geom_angle_atom_site_label_3
+_geom_angle
+C1 O1 H1 111.0(15)
+C2 O2 H2 105.0(18)
+O1 C1 C2 112.03(9)
+O1 C1 H1A 109.5(14)
+C2 C1 H1A 109.0(13)
+O1 C1 H1B 107.2(14)
+C2 C1 H1B 106.9(14)
+H1A C1 H1B 112.3(16)
+O2 C2 C1 109.60(9)
+O2 C2 H2A 111.3(11)
+C1 C2 H2A 108.1(12)
+O2 C2 H2B 107.3(12)
+C1 C2 H2B 111.3(12)
+H2A C2 H2B 109.3(18)
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_site_symmetry_2
+_geom_bond_distance
+_geom_bond_publ_flag
+O1 C1 . 1.427(2) ?
+O1 H1 . .88(2) ?
+O2 C2 . 1.4312(15) ?
+O2 H2 . .83(2) ?
+C1 C2 . 1.514(2) ?
+C1 H1A . 1.01(2) ?
+C1 H1B . .96(2) ?
+C2 H2A . .89(2) ?
+C2 H2B . .94(2) ?

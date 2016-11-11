@@ -1,0 +1,237 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-03-24 02:12:01 +0200 (Thu, 24 Mar 2016) $
+#$Revision: 179561 $
+#$URL: svn://www.crystallography.net/cod/cif/4/50/30/4503068.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/
+#
+# All data on this site have been placed in the public domain by the
+# contributors.
+#
+data_4503068
+loop_
+_publ_author_name
+'Kirchner, Michael T.'
+'Das, Dinabandhu'
+'Boese, Roland'
+_publ_section_title
+;
+ Cocrystallization with Acetylene: Molecular Complex with Methanol
+;
+_journal_issue                   3
+_journal_name_full               'Crystal Growth &amp; Design'
+_journal_page_first              763
+_journal_paper_doi               10.1021/cg0701877
+_journal_volume                  8
+_journal_year                    2008
+_chemical_absolute_configuration unk
+_chemical_formula_moiety         'C H4 O, C2 H2'
+_chemical_formula_sum            'C3 H6 O'
+_chemical_formula_weight         58.08
+_chemical_melting_point          161
+_chemical_name_common            'ethine methanol cocrystal'
+_chemical_name_systematic        'ethine methanol cocrystal'
+_space_group_IT_number           19
+_symmetry_cell_setting           orthorhombic
+_symmetry_Int_Tables_number      19
+_symmetry_space_group_name_Hall  'P 2ac 2ab'
+_symmetry_space_group_name_H-M   'P 21 21 21'
+_atom_sites_solution_hydrogens   geom
+_atom_sites_solution_primary     direct
+_atom_sites_solution_secondary   difmap
+_audit_creation_method           SHELXL-97
+_cell_angle_alpha                90.00
+_cell_angle_beta                 90.00
+_cell_angle_gamma                90.00
+_cell_formula_units_Z            4
+_cell_length_a                   4.565(3)
+_cell_length_b                   7.314(5)
+_cell_length_c                   13.165(8)
+_cell_measurement_reflns_used    553
+_cell_measurement_temperature    155(2)
+_cell_measurement_theta_max      19.459
+_cell_measurement_theta_min      3.945
+_cell_volume                     439.6(5)
+_computing_cell_refinement       'Bruker SAINT'
+_computing_data_collection       'Bruker SMART'
+_computing_data_reduction        'Bruker SAINT'
+_computing_molecular_graphics    'Bruker SHELXTL'
+_computing_publication_material  'Bruker SHELXTL'
+_computing_structure_refinement  'SHELXL-97 (Sheldrick, 1997)'
+_computing_structure_solution    'SHELXS-97 (Sheldrick, 1990)'
+_diffrn_ambient_temperature      155(2)
+_diffrn_detector_area_resol_mean 512
+_diffrn_measured_fraction_theta_full 0.989
+_diffrn_measured_fraction_theta_max 0.989
+_diffrn_measurement_device_type  'Bruker SMART  CCD area detector'
+_diffrn_measurement_method
+;
+one run in omega at 0.3\% scan width
+with 740 frames, phi = 0\%, chi = 0\% 
+;
+_diffrn_radiation_monochromator  graphite
+_diffrn_radiation_source         'fine-focus sealed tube'
+_diffrn_radiation_type           MoK\a
+_diffrn_radiation_wavelength     0.71073
+_diffrn_reflns_av_R_equivalents  0.0000
+_diffrn_reflns_av_sigmaI/netI    0.1843
+_diffrn_reflns_limit_h_max       5
+_diffrn_reflns_limit_h_min       0
+_diffrn_reflns_limit_k_max       8
+_diffrn_reflns_limit_k_min       0
+_diffrn_reflns_limit_l_max       16
+_diffrn_reflns_limit_l_min       0
+_diffrn_reflns_number            2150
+_diffrn_reflns_theta_full        25.96
+_diffrn_reflns_theta_max         25.96
+_diffrn_reflns_theta_min         3.09
+_exptl_absorpt_coefficient_mu    0.064
+_exptl_absorpt_correction_T_max  0.9809
+_exptl_absorpt_correction_T_min  0.7384
+_exptl_absorpt_correction_type   empirical
+_exptl_absorpt_process_details
+; 
+Empirical absobtion correction by TWINABS 1.05.  TWINABS is run with 0.003 as
+restraint to the scale factor esd and 1/4 as orders of spherical harmonics on
+data of 1.1 A resolution of components one and two for parameter refinement.
+R(int) drops from 7.36% to 4.94%. The scale factor is around 1.0. In the best
+error model factor g was 0.2088 and was not refinded. The first two components
+are better in Rint than the last two components.  The transmission ratio is
+0.752782 and a spherical absorbtion correction is not applied. Theoretical
+values for minimum and maximum transmission based on the size of the crystal
+are 0.9809 and 0.9809.
+;
+_exptl_crystal_colour            colorless
+_exptl_crystal_density_diffrn    0.878
+_exptl_crystal_density_method    'not measured'
+_exptl_crystal_description       oligocrystaline
+_exptl_crystal_F_000             128
+_exptl_crystal_recrystallization_method
+;
+The crystallization was performed in a sealed and pressurized capillary on the
+diffractometer at a temperature of 161 K with a miniature zone melting
+procedure using focused infrared-laser-radiation according to: R. Boese,
+M.Nussbaumer, "In Situ crystallisation Techniques", in: "Organic  Crystal
+Chemistry", Ed. D.W. Jones, Oxford University Press, Oxford, England, (1994)
+20-37
+;
+_exptl_crystal_size_max          0.30
+_exptl_crystal_size_mid          0.30
+_exptl_crystal_size_min          0.30
+_refine_diff_density_max         0.237
+_refine_diff_density_min         -0.158
+_refine_diff_density_rms         0.046
+_refine_ls_abs_structure_details 'Flack H D (1983), Acta Cryst. A39, 876-881'
+_refine_ls_extinction_method     none
+_refine_ls_goodness_of_fit_ref   0.722
+_refine_ls_hydrogen_treatment    constr
+_refine_ls_matrix_type           full
+_refine_ls_number_parameters     42
+_refine_ls_number_reflns         2152
+_refine_ls_number_restraints     0
+_refine_ls_restrained_S_all      0.722
+_refine_ls_R_factor_all          0.1974
+_refine_ls_R_factor_gt           0.0543
+_refine_ls_shift/su_max          0.000
+_refine_ls_shift/su_mean         0.000
+_refine_ls_structure_factor_coef Fsqd
+_refine_ls_weighting_details
+'calc w=1/[\s^2^(Fo^2^)+(0.0641P)^2^+0.0000P] where P=(Fo^2^+2Fc^2^)/3'
+_refine_ls_weighting_scheme      calc
+_refine_ls_wR_factor_gt          0.1151
+_refine_ls_wR_factor_ref         0.1427
+_reflns_number_gt                631
+_reflns_number_total             2152
+_reflns_threshold_expression     >2sigma(I)
+_cod_data_source_file            cg0701877-file003.cif
+_cod_data_source_block           3
+_cod_original_cell_volume        439.5(4)
+_cod_database_code               4503068
+loop_
+_symmetry_equiv_pos_as_xyz
+'x, y, z'
+'-x+1/2, -y, z+1/2'
+'-x, y+1/2, -z+1/2'
+'x+1/2, -y+1/2, -z'
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_occupancy
+_atom_site_symmetry_multiplicity
+_atom_site_calc_flag
+_atom_site_refinement_flags
+O1 O 0.7790(3) 0.34336(16) 0.49339(13) 0.0814(6) Uani 1 1 d .
+H1 H 0.6286 0.2792 0.5025 0.122 Uiso 1 1 calc R
+C2 C 0.7353(6) 0.5184(3) 0.53641(14) 0.0717(7) Uani 1 1 d .
+H2A H 0.6378 0.5978 0.4869 0.107 Uiso 1 1 calc R
+H2B H 0.9251 0.5714 0.5549 0.107 Uiso 1 1 calc R
+H2C H 0.6129 0.5074 0.5972 0.107 Uiso 1 1 calc R
+C3 C 0.8335(7) 0.0315(4) 0.19659(18) 0.0822(9) Uani 1 1 d .
+H3 H 0.9680 -0.0498 0.1651 0.123 Uiso 1 1 calc R
+C4 C 0.6733(7) 0.1284(3) 0.23414(19) 0.0903(10) Uani 1 1 d .
+H4 H 0.5388 0.2097 0.2657 0.135 Uiso 1 1 calc R
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_23
+_atom_site_aniso_U_13
+_atom_site_aniso_U_12
+O1 0.0548(10) 0.0477(8) 0.1417(14) -0.0137(10) -0.0011(14) 0.0000(9)
+C2 0.0831(19) 0.0506(13) 0.0813(15) -0.0089(11) 0.0053(17) 0.0045(16)
+C3 0.093(3) 0.0689(18) 0.0847(19) -0.0035(16) 0.0120(17) 0.0064(17)
+C4 0.109(3) 0.072(2) 0.089(2) -0.0058(16) 0.014(2) 0.006(2)
+loop_
+_atom_type_symbol
+_atom_type_description
+_atom_type_scat_dispersion_real
+_atom_type_scat_dispersion_imag
+_atom_type_scat_source
+C C 0.0033 0.0016 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+H H 0.0000 0.0000 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+O O 0.0106 0.0060 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+loop_
+_geom_angle_atom_site_label_1
+_geom_angle_atom_site_label_2
+_geom_angle_atom_site_label_3
+_geom_angle
+C2 O1 H1 109.5
+O1 C2 H2A 109.5
+O1 C2 H2B 109.5
+H2A C2 H2B 109.5
+O1 C2 H2C 109.5
+H2A C2 H2C 109.5
+H2B C2 H2C 109.5
+C4 C3 H3 180.0
+C3 C4 H4 180.0
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+O1 C2 1.414(2)
+O1 H1 0.8400
+C2 H2A 0.9800
+C2 H2B 0.9800
+C2 H2C 0.9800
+C3 C4 1.132(3)
+C3 H3 0.9500
+C4 H4 0.9500
+loop_
+_geom_hbond_atom_site_label_D
+_geom_hbond_atom_site_label_H
+_geom_hbond_atom_site_label_A
+_geom_hbond_distance_DH
+_geom_hbond_distance_HA
+_geom_hbond_distance_DA
+_geom_hbond_angle_DHA
+_geom_hbond_site_symmetry_A
+C3 H3 O1 0.95 2.51 3.358(4) 148.8 3_745
+O1 H1 O1 0.84 1.83 2.6655(17) 171.8 4_456

@@ -1,0 +1,63 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-20 02:53:41 +0200 (Sat, 20 Feb 2016) $
+#$Revision: 176768 $
+#$URL: svn://www.crystallography.net/cod/cif/2/10/13/2101361.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/. The original data for this entry
+# were provided by IUCr Journals, http://journals.iucr.org/.
+#
+# The file may be used within the scientific community so long as
+# proper attribution is given to the journal article from which the
+# data were obtained.
+#
+data_2101361
+loop_
+_publ_author_name
+'Katrusiak, A.'
+_publ_section_title
+;
+ High-pressure X-ray diffraction study of pentaerythritol
+;
+_journal_issue                   5
+_journal_name_full               'Acta Crystallographica Section B'
+_journal_page_first              873
+_journal_page_last               879
+_journal_paper_doi               10.1107/S010876819500098X
+_journal_volume                  51
+_journal_year                    1995
+_chemical_formula_sum            'C5 H12 O4'
+_chemical_formula_weight         136.15
+_symmetry_cell_setting           tetragonal
+_symmetry_space_group_name_Hall  'I -4'
+_symmetry_space_group_name_H-M   'I -4'
+_cell_angle_alpha                90.0
+_cell_angle_beta                 90.0
+_cell_angle_gamma                90.0
+_cell_formula_units_Z            2
+_cell_length_a                   6.0173(10)
+_cell_length_b                   6.0173(10)
+_cell_length_c                   8.267(3)
+_cell_volume                     299.33(13)
+_diffrn_radiation_type           Mo
+_diffrn_radiation_wavelength     0.71073
+_exptl_absorpt_coefficient_mu    0.084
+_exptl_crystal_density_diffrn    1.511
+_exptl_crystal_F_000             148
+_cod_data_source_file            hr0019.cif
+_cod_data_source_block           hr0019a
+_cod_original_cell_volume        299.3(2)
+_cod_database_code               2101361
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+C(1) .0 .0 .0 .027
+C(2) .1600(4) .1265(4) -.1111(6) .025
+O(1) .3219(2) .2460(2) -.0198(4) .027
+H(1) .219(5) .026(4) -.179(8) .030(10)
+H(2) .063(4) .234(5) -.182(7) .030(10)
+H(3) .277(3) .368(4) .012(10) .020(10)

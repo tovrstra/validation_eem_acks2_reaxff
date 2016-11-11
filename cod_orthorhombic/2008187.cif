@@ -1,0 +1,219 @@
+#------------------------------------------------------------------------------
+#$Date: 2016-02-19 16:29:56 +0200 (Fri, 19 Feb 2016) $
+#$Revision: 176759 $
+#$URL: svn://www.crystallography.net/cod/cif/2/00/81/2008187.cif $
+#------------------------------------------------------------------------------
+#
+# This file is available in the Crystallography Open Database (COD),
+# http://www.crystallography.net/. The original data for this entry
+# were provided by IUCr Journals, http://journals.iucr.org/.
+#
+# The file may be used within the scientific community so long as
+# proper attribution is given to the journal article from which the
+# data were obtained.
+#
+data_2008187
+loop_
+_publ_author_name
+'Boese, Roland'
+'Bl\"aser, Dieter'
+'Latz, R\"udiger'
+'B\"aumen, Anja'
+_publ_section_title
+;
+ Acetic acid at 40K
+;
+_journal_issue                   2
+_journal_name_full               'Acta Crystallographica Section C'
+_journal_page_first              IUC9900001
+_journal_paper_doi               10.1107/S0108270199099862
+_journal_volume                  55
+_journal_year                    1999
+_chemical_formula_moiety         'C2 H4 O2'
+_chemical_formula_sum            'C2 H4 O2'
+_chemical_formula_weight         60.05
+_chemical_melting_point          289.75
+_chemical_name_common            'Acetic acid'
+_chemical_name_systematic
+;
+ Ethanoic acid
+;
+_space_group_IT_number           33
+_symmetry_cell_setting           orthorhombic
+_symmetry_space_group_name_Hall  'P 2c -2n'
+_symmetry_space_group_name_H-M   'P n a 21'
+_cell_angle_alpha                90.00
+_cell_angle_beta                 90.00
+_cell_angle_gamma                90.00
+_cell_formula_units_Z            4
+_cell_length_a                   13.151(3)
+_cell_length_b                   3.9230(10)
+_cell_length_c                   5.7620(10)
+_cell_measurement_reflns_used    25
+_cell_measurement_temperature    40(2)
+_cell_measurement_theta_max      12.5
+_cell_measurement_theta_min      10
+_cell_volume                     297.27(11)
+_computing_cell_refinement       P3-VMS
+_computing_data_collection       'P3-VMS (Siemens 1987)'
+_computing_data_reduction        'XDISK (Siemens, 1991)'
+_computing_molecular_graphics    SHELXL97
+_computing_publication_material  SHELXL97
+_computing_structure_refinement  'SHELXL97 (Sheldrick, 1997)'
+_computing_structure_solution    'SHELXTL-Plus (Sheldrick, 1990)'
+_diffrn_ambient_temperature      40(2)
+_diffrn_measurement_device_type  'Nicolet R3m/V four-circle'
+_diffrn_measurement_method       Wyckoff
+_diffrn_radiation_monochromator  graphite
+_diffrn_radiation_source         'fine-focus sealed tube'
+_diffrn_radiation_type           MoK\a
+_diffrn_radiation_wavelength     0.71073
+_diffrn_reflns_av_sigmaI/netI    0.0169
+_diffrn_reflns_limit_h_max       18
+_diffrn_reflns_limit_h_min       0
+_diffrn_reflns_limit_k_max       5
+_diffrn_reflns_limit_k_min       0
+_diffrn_reflns_limit_l_max       6
+_diffrn_reflns_limit_l_min       -8
+_diffrn_reflns_number            649
+_diffrn_reflns_theta_max         29.91
+_diffrn_reflns_theta_min         3.10
+_diffrn_standards_decay_%        <3
+_diffrn_standards_interval_count 100
+_diffrn_standards_number         1
+_exptl_absorpt_coefficient_mu    0.122
+_exptl_absorpt_correction_type   none
+_exptl_crystal_colour            colourless
+_exptl_crystal_density_diffrn    1.342
+_exptl_crystal_density_method    'not measured'
+_exptl_crystal_description       cylindrical
+_exptl_crystal_F_000             128
+_exptl_crystal_size_max          3.00
+_exptl_crystal_size_rad          0.15
+_refine_diff_density_max         0.305
+_refine_diff_density_min         -0.220
+_refine_ls_extinction_method     none
+_refine_ls_goodness_of_fit_ref   1.131
+_refine_ls_hydrogen_treatment    refall
+_refine_ls_matrix_type           full
+_refine_ls_number_parameters     53
+_refine_ls_number_reflns         649
+_refine_ls_number_restraints     1
+_refine_ls_restrained_S_all      1.130
+_refine_ls_R_factor_all          0.0413
+_refine_ls_R_factor_gt           0.0397
+_refine_ls_shift/su_max          <0.001
+_refine_ls_shift/su_mean         0.000
+_refine_ls_structure_factor_coef Fsqd
+_refine_ls_weighting_details
+'w = 1/[\s^2^(Fo^2^)+(0.0755P)^2^+0.0047P] where P = (Fo^2^+2Fc^2^)/3'
+_refine_ls_weighting_scheme      calc
+_refine_ls_wR_factor_ref         0.0986
+_reflns_number_gt                620
+_reflns_number_total             649
+_reflns_threshold_expression     I>2\s(I)
+_cod_data_source_file            qa0082.cif
+_cod_data_source_block           qa0082
+_cod_depositor_comments
+;
+The following automatic conversions were performed:
+
+'_refine_ls_weighting_scheme' value 'calc w =
+1/[\s^2^(Fo^2^)+(0.0755P)^2^+0.0047P] where P = (Fo^2^+2Fc^2^)/3' was
+changed to 'calc'. New tag '_refine_ls_weighting_details' was
+created. The value of the new tag was set to 'w =
+1/[\s^2^(Fo^2^)+(0.0755P)^2^+0.0047P] where P = (Fo^2^+2Fc^2^)/3'.
+
+Automatic conversion script
+Id: cif_fix_values 3143 2015-03-26 13:38:13Z robertas 
+;
+_cod_database_code               2008187
+loop_
+_symmetry_equiv_pos_as_xyz
+'x, y, z'
+'-x, -y, z+1/2'
+'x+1/2, -y+1/2, z'
+'-x+1/2, y+1/2, z+1/2'
+loop_
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_U_iso_or_equiv
+_atom_site_adp_type
+_atom_site_calc_flag
+_atom_site_refinement_flags
+_atom_site_occupancy
+_atom_site_disorder_assembly
+_atom_site_disorder_group
+_atom_site_type_symbol
+O1 0.37352(7) 0.8885(2) 0.00000(19) 0.0209(3) Uani d . 1 . . O
+H1 0.323(2) 0.941(6) -0.079(5) 0.043(7) Uiso d . 1 . . H
+O2 0.24694(7) 0.6109(2) 0.1702(2) 0.0204(3) Uani d . 1 . . O
+C1 0.33529(9) 0.7020(3) 0.1697(2) 0.0160(3) Uani d . 1 . . C
+C2 0.41068(10) 0.6160(3) 0.3537(2) 0.0190(3) Uani d . 1 . . C
+H2A 0.377(2) 0.503(8) 0.482(6) 0.045(6) Uiso d . 1 . . H
+H2B 0.465(2) 0.502(8) 0.298(6) 0.058(7) Uiso d . 1 . . H
+H2C 0.4420(19) 0.823(5) 0.421(4) 0.038(6) Uiso d . 1 . . H
+loop_
+_atom_site_aniso_label
+_atom_site_aniso_U_11
+_atom_site_aniso_U_22
+_atom_site_aniso_U_33
+_atom_site_aniso_U_12
+_atom_site_aniso_U_13
+_atom_site_aniso_U_23
+O1 0.0185(4) 0.0283(5) 0.0160(5) -0.0010(4) 0.0004(4) 0.0090(4)
+O2 0.0205(5) 0.0272(5) 0.0137(5) -0.0029(3) -0.0018(4) 0.0044(6)
+C1 0.0209(5) 0.0162(5) 0.0109(5) 0.0012(4) 0.0006(5) 0.0016(6)
+C2 0.0195(5) 0.0233(6) 0.0142(6) 0.0000(5) -0.0032(6) 0.0033(5)
+loop_
+_atom_type_symbol
+_atom_type_description
+_atom_type_scat_dispersion_real
+_atom_type_scat_dispersion_imag
+_atom_type_scat_source
+C C 0.0033 0.0016 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+H H 0.0000 0.0000 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+O O 0.0106 0.0060 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+loop_
+_diffrn_standard_refln_index_h
+_diffrn_standard_refln_index_k
+_diffrn_standard_refln_index_l
+4 0 2
+loop_
+_geom_angle_atom_site_label_1
+_geom_angle_atom_site_label_2
+_geom_angle_atom_site_label_3
+_geom_angle
+C1 O1 H1 104(2)
+O2 C1 O1 121.90(13)
+O2 C1 C2 124.59(12)
+O1 C1 C2 113.51(11)
+C1 C2 H2A 109.8(17)
+C1 C2 H2B 113(2)
+H2A C2 H2B 114(3)
+C1 C2 H2C 111.7(13)
+H2A C2 H2C 106(2)
+H2B C2 H2C 102(3)
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_site_symmetry_2
+_geom_bond_distance
+_geom_bond_publ_flag
+O1 C1 . 1.3208(16) ?
+O1 H1 . 0.83(3) ?
+O2 C1 . 1.2156(16) ?
+C1 C2 . 1.4903(18) ?
+C2 H2A . 0.97(3) ?
+C2 H2B . 0.91(3) ?
+C2 H2C . 0.99(2) ?
+loop_
+_geom_torsion_atom_site_label_1
+_geom_torsion_atom_site_label_2
+_geom_torsion_atom_site_label_3
+_geom_torsion_atom_site_label_4
+_geom_torsion
+H1 O1 C1 C2 -172.2(18)
+H1 O1 C1 O2 8.2(19)
