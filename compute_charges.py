@@ -24,26 +24,39 @@ kcalmol = (4184/4.359744650e-18/6.022140857e23)
 def main():
     """Main program."""
     args = parse_args()
+    atsymbols, atpositions, cellvecs = load_structure(args.struct)
+    constraints = load_constraints(args.constrain, args.qtot, len(atsymbols))
     model = {
         'eem': EEMModel,
     }[args.model]()
     model.load_parameters(args.ffield)
-    atsymbols, atpositions, cellvecs = load_structure(args.struct)
 
-    energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs)
+    energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs, constraints)
     print('Energy [k cal mol^-1] = {:.5f}'.format(energy/kcalmol))
     print('Charges [e]:')
     for q in atcharges:
         print('{:10.5f}'.format(q))
+    print('Constraints:')
+    for charge, indexes in constraints:
+        print('{:10.5f} {:10.5f} {}'.format(charge, atcharges[indexes].sum(), ','.join([str(i) for i in indexes])))
 
 
 def parse_args():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser('Compute EEM or ACKS2 charges as in ReaxFF.')
-    parser.add_argument('model', choices=['eem', 'acks'],
-                        help='The model with which to compute the charges.')
+    parser.add_argument(
+        'model', choices=['eem', 'acks'],
+        help='The model with which to compute the charges.')
     parser.add_argument('ffield', help='A ReaxFF parameter file.')
     parser.add_argument('struct', help='An XYZ structure files.')
+    parser.add_argument('-q', '--qtot', type=float, default=0.0, help='The total charge.')
+    parser.add_argument(
+        '--constrain',
+        help='Constrain charges on groups of atoms to have a certain value. This option '
+             'requires one argument: a file containing all the constraints. Non-empty '
+             'lines in this file contain a float (the target charge) followed by a list '
+             'of atom indexes defining the group to constrain. Atom indexes start '
+             'counting from one, like in FORTRAN.')
     return parser.parse_args()
 
 
@@ -79,6 +92,27 @@ def load_structure_xyz(fn_struct):
     return atsymbols, atpositions, cellvecs
 
 
+def load_constraints(fn_constraints, qtot, natom):
+    """Load constraints from file, if any."""
+    result = [(qtot, np.arange(natom))]
+    if fn_constraints is None:
+        return result
+    with open(fn_constraints) as f:
+        for line in f:
+            line = line[:line.find('#')].strip()
+            if len(line) == 0:
+                continue
+            words = line.split()
+            if len(words) == 1:
+                raise IOError('Each line in the constraints file must contain at least two "words".')
+            charge = float(words[0])
+            indexes = np.array([int(word)-1 for word in words[1:]])
+            assert (indexes >= 0).all()
+            assert (indexes < natom).all()
+            result.append((charge, indexes))
+    return result
+
+
 class EEMModel(object):
     """Compute EEM charges as in ReaxFF."""
 
@@ -106,7 +140,7 @@ class EEMModel(object):
             self.chis[symbol] = float(lines[46+ielement*4].split()[5])*electronvolt
             self.etas[symbol] = float(lines[46+ielement*4].split()[6])*electronvolt
 
-    def compute_charges(self, atsymbols, atpositions, cellvecs):
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
         """Compute atomic charges for a single molecules.
 
         Parameters
@@ -117,8 +151,13 @@ class EEMModel(object):
             Atomic positions in atomic units.
         cellvecs : np.ndarray, dtype=float, shape=(3, 3)
             Rows of this matrix are cell vectors. This argument may also be None.
+        constraints : list of tuples
+            Each element is a tuple of a charge and a list of integer indexes defining the
+            group whose charge is to be constrained.
         """
         natom = len(atsymbols)
+        ncon = len(constraints)
+
         if cellvecs is None:
             recivecs = None
             repeat_a = 0
@@ -141,13 +180,15 @@ class EEMModel(object):
 
         # Build up the electronegativity vector and hardness matrix, extended with
         # elements for the Lagrange multiplier, assuming the total charge is zero.
-        chi_vector = np.zeros(natom + 1, float)
-        eta_matrix = np.zeros((natom+1, natom+1), float)
+        chi_vector = np.zeros(natom + ncon, float)
+        eta_matrix = np.zeros((natom + ncon, natom + ncon), float)
+        for icon, (charge, indexes) in enumerate(constraints):
+            eta_matrix[natom + icon, indexes] = 1
+            eta_matrix[indexes, natom + icon] = 1
+            chi_vector[natom + icon] = charge
         for iatom0 in range(natom):
             chi_vector[iatom0] = self.chis[atsymbols[iatom0]]
             eta_matrix[iatom0, iatom0] = self.etas[atsymbols[iatom0]]
-            eta_matrix[natom, :natom] = 1
-            eta_matrix[:natom, natom] = 1
             gamma0 = self.gammas[atsymbols[iatom0]]
             for iatom1 in range(natom):
                 gamma1 = self.gammas[atsymbols[iatom1]]
@@ -181,10 +222,10 @@ class EEMModel(object):
                             eta_matrix[iatom0, iatom1] += coulomb
 
         # Solve the charges
-        charges = np.linalg.solve(eta_matrix, chi_vector)[:-1]
+        charges = np.linalg.solve(eta_matrix, chi_vector)[:natom]
 
         # Compute the energy
-        energy = np.dot(chi_vector[:-1], charges) + 0.5*np.dot(charges, np.dot(eta_matrix[:-1,:-1], charges))
+        energy = np.dot(chi_vector[:natom], charges) + 0.5*np.dot(charges, np.dot(eta_matrix[:natom,:natom], charges))
 
         return energy, charges
 
