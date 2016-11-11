@@ -140,6 +140,28 @@ class EEMModel(object):
             self.chis[symbol] = float(lines[46+ielement*4].split()[5])*electronvolt
             self.etas[symbol] = float(lines[46+ielement*4].split()[6])*electronvolt
 
+    @staticmethod
+    def _set_constraint(A, B, index_con, target, variable_indexes):
+        """Impose a (charge) constraint.
+
+        Parameters
+        ----------
+        A : np.ndarray, shape=(neq, neq), dtype=float
+            Matrix with linear coefficients
+        B : np.ndarray, shape=(neq,), dtype=float
+            Right-hand side
+        index_con : int
+            Row and column where constraint should be set.
+        target : float
+            The target value of the constraints.
+        variable_indexes: np.ndarray, dtype=int
+            Indexes of all variables to be constrained.
+        """
+        A[index_con, variable_indexes] = 1.0
+        A[variable_indexes, index_con] = 1.0
+        B[index_con] = target
+
+
     def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
         """Compute atomic charges for a single molecules.
 
@@ -183,9 +205,7 @@ class EEMModel(object):
         chi_vector = np.zeros(natom + ncon, float)
         eta_matrix = np.zeros((natom + ncon, natom + ncon), float)
         for icon, (charge, indexes) in enumerate(constraints):
-            eta_matrix[natom + icon, indexes] = 1
-            eta_matrix[indexes, natom + icon] = 1
-            chi_vector[natom + icon] = charge
+            self._set_constraint(eta_matrix, chi_vector, natom + icon, charge, indexes)
         for iatom0 in range(natom):
             chi_vector[iatom0] = self.chis[atsymbols[iatom0]]
             eta_matrix[iatom0, iatom0] = self.etas[atsymbols[iatom0]]
