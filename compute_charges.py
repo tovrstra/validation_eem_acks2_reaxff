@@ -8,8 +8,11 @@ Unlike ReaxFF, this script internally works in atomic units, because that is soo
 easier. All parameters and geometries are converted to atomic units when they are read.
 """
 
-import numpy as np
 import argparse
+import shlex
+
+import numpy as np
+
 
 # For now, taken from NIST. Should be replaced by (less accurate) units used in ReaxFF.
 # The calorie is just defined with a four-digit precision relative to the Joule.
@@ -56,7 +59,13 @@ def load_structure_xyz(fn_struct):
     """Load molecular structure from the file fn_struct, in XYZ format."""
     with open(fn_struct) as f:
         natom = int(next(f))
-        next(f)   # skip title
+        title = next(f)
+        cellvecs = None
+        for field in shlex.split(title):
+            if field.count('=') == 1:
+                key, value = field.split('=')
+                if key == 'Lattice':
+                    cellvecs = np.array([float(word) for word in value.split()]).reshape(3, 3)*angstrom
         atsymbols = []
         atpositions = np.zeros((natom, 3), dtype=float)
         for iatom in range(natom):
@@ -67,7 +76,7 @@ def load_structure_xyz(fn_struct):
                 float(words[2])*angstrom,
                 float(words[3])*angstrom,
             ]
-    return atsymbols, atpositions, None
+    return atsymbols, atpositions, cellvecs
 
 
 class EEMModel(object):
@@ -89,6 +98,7 @@ class EEMModel(object):
     def _extract_parameters(self, lines):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
         self.rcut = float(lines[14].split()[0])*angstrom
+        print('Coulomb cutoff [Å]: {:10.5f}'.format(self.rcut/angstrom))
         nelement = int(lines[41].split()[0])
         for ielement in range(nelement):
             symbol = lines[45+ielement*4].split()[0].lower()
@@ -108,9 +118,26 @@ class EEMModel(object):
         cellvecs : np.ndarray, dtype=float, shape=(3, 3)
             Rows of this matrix are cell vectors. This argument may also be None.
         """
-        if cellvecs is not None:
-            raise NotImplementedError
         natom = len(atsymbols)
+        if cellvecs is None:
+            recivecs = None
+            repeat_a = 0
+            repeat_b = 0
+            repeat_c = 0
+        else:
+            recivecs = np.linalg.inv(cellvecs)
+            # Compute the number of images to be considered to include everything within
+            # the cutoff sphere.
+            spacing_a = 1.0/np.linalg.norm(recivecs[:,0])
+            spacing_b = 1.0/np.linalg.norm(recivecs[:,1])
+            spacing_c = 1.0/np.linalg.norm(recivecs[:,2])
+            print('Crystal plane spacings [Å]: {:10.5f} {:10.5f} {:10.5f}'.format(
+                spacing_a/angstrom, spacing_b/angstrom, spacing_c/angstrom))
+            print(self.rcut*np.linalg.norm(recivecs[:,0]))
+            repeat_a = int(np.floor(self.rcut/spacing_a + 0.5))
+            repeat_b = int(np.floor(self.rcut/spacing_b + 0.5))
+            repeat_c = int(np.floor(self.rcut/spacing_c + 0.5))
+            print('Supercell for electrostatics: {} {} {}'.format(2*repeat_a+1, 2*repeat_b+1, 2*repeat_c+1))
 
         # Build up the electronegativity vector and hardness matrix, extended with
         # elements for the Lagrange multiplier, assuming the total charge is zero.
@@ -122,15 +149,36 @@ class EEMModel(object):
             eta_matrix[natom, :natom] = 1
             eta_matrix[:natom, natom] = 1
             gamma0 = self.gammas[atsymbols[iatom0]]
-            for iatom1 in range(iatom0):
-                # In atomic units, 1/(4*pi*epsilon_0) is numerically equal to one, which
-                # is nice!
+            for iatom1 in range(natom):
                 gamma1 = self.gammas[atsymbols[iatom1]]
-                distance = np.linalg.norm(atpositions[iatom0] - atpositions[iatom1])
-                coulomb = (distance**3 + (gamma0*gamma1)**(-3.0/2.0))**(-1.0/3.0)
-                coulomb *= self.taper(distance)
-                eta_matrix[iatom0, iatom1] = coulomb
-                eta_matrix[iatom1, iatom0] = coulomb
+                # Get the (naive) minimum image convention
+                delta0 = atpositions[iatom0] - atpositions[iatom1]
+                # Apply minimum image convention
+                if recivecs is not None:
+                    delta0_frac = np.dot(recivecs.T, delta0)
+                    delta0_frac -= np.round(delta0_frac)
+                    delta0 = np.dot(cellvecs.T, delta0_frac)
+                # Loop over all relevant neighboring cells
+                for image_a in range(-repeat_a, repeat_a+1):
+                    for image_b in range(-repeat_b, repeat_b+1):
+                        for image_c in range(-repeat_c, repeat_c+1):
+                            central = image_a == 0 and image_b == 0 and image_c == 0
+                            if central and iatom0 == iatom1:
+                                continue
+                            if central:
+                                delta = delta0
+                            else:
+                                # Add linear combination of cell vectors
+                                delta = delta0 + np.dot(cellvecs.T, [image_a, image_b, image_c])
+                            distance = np.linalg.norm(delta)
+                            if distance >= self.rcut:
+                                continue
+                            assert distance > 1.0
+                            # In atomic units, 1/(4*pi*epsilon_0) is numerically equal
+                            # to one, which is nice!
+                            coulomb = (distance**3 + (gamma0*gamma1)**(-3.0/2.0))**(-1.0/3.0)
+                            coulomb *= self.taper(distance)
+                            eta_matrix[iatom0, iatom1] += coulomb
 
         # Solve the charges
         charges = np.linalg.solve(eta_matrix, chi_vector)[:-1]
