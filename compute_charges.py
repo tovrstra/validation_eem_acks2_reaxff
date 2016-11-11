@@ -178,11 +178,8 @@ class EEMModel(object):
     def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats):
         natom = len(atsymbols)
         for iatom0 in range(natom):
-            B[iatom0] = self.chis[atsymbols[iatom0]]
-            A[iatom0, iatom0] = self.etas[atsymbols[iatom0]]
-            gamma0 = self.gammas[atsymbols[iatom0]]
+            self._set_physics_atom(A, B, atsymbols, iatom0)
             for iatom1 in range(natom):
-                gamma1 = self.gammas[atsymbols[iatom1]]
                 # Get the (naive) minimum image convention
                 delta0 = atpositions[iatom0] - atpositions[iatom1]
                 # Apply minimum image convention
@@ -206,11 +203,20 @@ class EEMModel(object):
                             if distance >= self.rcut:
                                 continue
                             assert distance > 1.0
-                            # In atomic units, 1/(4*pi*epsilon_0) is numerically equal
-                            # to one, which is nice!
-                            coulomb = (distance**3 + (gamma0*gamma1)**(-3.0/2.0))**(-1.0/3.0)
-                            coulomb *= self.taper(distance)
-                            A[iatom0, iatom1] += coulomb
+                            self._set_physics_atom_pair(A, B, atsymbols, iatom0, iatom1, distance)
+
+    def _set_physics_atom(self, A, B, atsymbols, iatom):
+        B[iatom] = self.chis[atsymbols[iatom]]
+        A[iatom, iatom] = self.etas[atsymbols[iatom]]
+
+    def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, distance):
+        gamma0 = self.gammas[atsymbols[iatom0]]
+        gamma1 = self.gammas[atsymbols[iatom1]]
+        # In atomic units, 1/(4*pi*epsilon_0) is numerically equal
+        # to one, which is nice!
+        coulomb = (distance**3 + (gamma0*gamma1)**(-3.0/2.0))**(-1.0/3.0)
+        coulomb *= self.taper(distance)
+        A[iatom0, iatom1] += coulomb
 
     def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
         """Compute atomic charges for a single molecules.
