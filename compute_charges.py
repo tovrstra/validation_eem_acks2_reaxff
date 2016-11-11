@@ -28,6 +28,7 @@ def main():
     constraints = load_constraints(args.constrain, args.qtot, len(atsymbols))
     model = {
         'eem': EEMModel,
+        'acks2': ACKS2Model,
     }[args.model]()
     model.load_parameters(args.ffield)
 
@@ -45,7 +46,7 @@ def parse_args():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser('Compute EEM or ACKS2 charges as in ReaxFF.')
     parser.add_argument(
-        'model', choices=['eem', 'acks'],
+        'model', choices=['eem', 'acks2'],
         help='The model with which to compute the charges.')
     parser.add_argument('ffield', help='A ReaxFF parameter file.')
     parser.add_argument('struct', help='An XYZ structure files.')
@@ -203,13 +204,13 @@ class EEMModel(object):
                             if distance >= self.rcut:
                                 continue
                             assert distance > 1.0
-                            self._set_physics_atom_pair(A, B, atsymbols, iatom0, iatom1, distance)
+                            self._set_physics_atom_pair(A, B, atsymbols, iatom0, iatom1, natom, distance)
 
     def _set_physics_atom(self, A, B, atsymbols, iatom):
         B[iatom] = self.chis[atsymbols[iatom]]
         A[iatom, iatom] = self.etas[atsymbols[iatom]]
 
-    def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, distance):
+    def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance):
         gamma0 = self.gammas[atsymbols[iatom0]]
         gamma1 = self.gammas[atsymbols[iatom1]]
         # In atomic units, 1/(4*pi*epsilon_0) is numerically equal
@@ -219,7 +220,7 @@ class EEMModel(object):
         A[iatom0, iatom1] += coulomb
 
     def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
-        """Compute atomic charges for a single molecules.
+        """Compute atomic charges for a single molecule or crystal.
 
         Parameters
         ----------
@@ -261,6 +262,82 @@ class EEMModel(object):
         TAP4 = -35.0/self.rcut**4
         return 1.0 + TAP4*distance**4 + TAP5*distance**5 + TAP6*distance**6 + TAP7*distance**7
 
+
+class ACKS2Model(EEMModel):
+    """Compute ACKS2 charges as in ReaxFF."""
+
+    def __init__(self):
+        """Initialize the ACKS2Model object."""
+        EEMModel.__init__(self)
+        self.bsoft_amp = None
+        self.bsoft_radii = {}
+
+    def _extract_parameters(self, lines):
+        """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
+        EEMModel._extract_parameters(self, lines)
+        self.bsoft_amp = float(lines[36].split()[0])
+        nelement = int(lines[41].split()[0])
+        for ielement in range(nelement):
+            symbol = lines[45+ielement*4].split()[0].lower()
+            self.bsoft_radii[symbol] = float(lines[47+ielement*4].split()[7])*(1/angstrom)
+
+    def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
+        EEMModel._set_physics_atom(self, A, B, atsymbols, iatom, natom)
+        A[iatom, iatom+natom] = 1.0
+        A[iatom+natom, iatom] = 1.0
+
+    def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance):
+        EEMModel._set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance)
+        bsoft_rcut = self.bsoft_radii[atsymbols[iatom0]] + self.bsoft_radii[atsymbols[iatom1]]
+        assert bsoft_rcut < self.rcut
+        if distance < bsoft_rcut:
+            x = distance/bsoft_rcut
+            bsoft = self.bsoft_amp*x**3*(1-x**6)
+            A[iatom0 + natom, iatom0 + natom] -= bsoft
+            A[iatom1 + natom, iatom1 + natom] -= bsoft
+            A[iatom0 + natom, iatom1 + natom] += bsoft
+            A[iatom1 + natom, iatom0 + natom] += bsoft
+
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
+        """Compute atomic charges for a single molecule or crystal.
+
+        Parameters
+        ----------
+        atsymbols : list of str
+            Atomic symbols, should correspond to symbols in ffield.
+        atpositions : np.ndarray, dtype=float, shape=(natom, 1)
+            Atomic positions in atomic units.
+        cellvecs : np.ndarray, dtype=float, shape=(3, 3)
+            Rows of this matrix are cell vectors. This argument may also be None.
+        constraints : list of tuples
+            Each element is a tuple of a charge and a list of integer indexes defining the
+            group whose charge is to be constrained.
+        """
+        natom = len(atsymbols)
+        ncon = len(constraints)
+
+        recivecs, repeats = self._process_cellvecs(cellvecs)
+
+        # Build up the equations to be solveds
+        B = np.zeros(2*natom + ncon + 1, float)
+        A = np.zeros((2*natom + ncon + 1, 2*natom + ncon + 1), float)
+        # Constraints
+        for icon, (charge, indexes) in enumerate(constraints):
+            self._set_constraint(A, B, 2*natom + icon, charge, indexes)
+        # Set reference charges to least-norm solution that satisfies the constraints
+        B[natom:2*natom] = np.linalg.lstsq(A[2*natom:2*natom+ncon, :natom], B[2*natom:2*natom+ncon], rcond=1e-10)[0]
+        # Physics
+        self._set_constraint(A, B, 2*natom + ncon, 0.0, np.arange(natom, 2*natom))
+        self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats)
+
+        # Solve the charges
+        charges = np.linalg.solve(A, B)[:natom]
+
+        # Compute the energy
+        energy = 0.0
+        #np.dot(chi_vector[:natom], charges) + 0.5*np.dot(charges, np.dot(eta_matrix[:natom,:natom], charges))
+
+        return energy, charges
 
 if __name__ == '__main__':
     main()
