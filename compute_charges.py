@@ -140,6 +140,20 @@ class EEMModel(object):
             self.chis[symbol] = float(lines[46+ielement*4].split()[5])*electronvolt
             self.etas[symbol] = float(lines[46+ielement*4].split()[6])*electronvolt
 
+    def _process_cellvecs(self, cellvecs):
+        if cellvecs is None:
+            recivecs = None
+            repeats = np.zeros(3, int)
+        else:
+            recivecs = np.linalg.inv(cellvecs)
+            # Compute the number of images to be considered to include everything within
+            # the cutoff sphere.
+            spacings = (recivecs**2).sum(axis=0)**(-0.5)
+            print('Crystal plane spacings [Å]: {:10.5f} {:10.5f} {:10.5f}'.format(*(spacings/angstrom)))
+            repeats = np.floor(self.rcut/spacings + 0.5).astype(int)
+            print('Supercell for electrostatics: {} {} {}'.format(*(2*repeats+1)))
+        return recivecs, repeats
+
     @staticmethod
     def _set_constraint(A, B, index_con, target, variable_indexes):
         """Impose a (charge) constraint.
@@ -161,6 +175,42 @@ class EEMModel(object):
         A[variable_indexes, index_con] = 1.0
         B[index_con] = target
 
+    def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats):
+        natom = len(atsymbols)
+        for iatom0 in range(natom):
+            B[iatom0] = self.chis[atsymbols[iatom0]]
+            A[iatom0, iatom0] = self.etas[atsymbols[iatom0]]
+            gamma0 = self.gammas[atsymbols[iatom0]]
+            for iatom1 in range(natom):
+                gamma1 = self.gammas[atsymbols[iatom1]]
+                # Get the (naive) minimum image convention
+                delta0 = atpositions[iatom0] - atpositions[iatom1]
+                # Apply minimum image convention
+                if recivecs is not None:
+                    delta0_frac = np.dot(recivecs.T, delta0)
+                    delta0_frac -= np.round(delta0_frac)
+                    delta0 = np.dot(cellvecs.T, delta0_frac)
+                # Loop over all relevant neighboring cells
+                for image_a in range(-repeats[0], repeats[0]+1):
+                    for image_b in range(-repeats[1], repeats[1]+1):
+                        for image_c in range(-repeats[2], repeats[2]+1):
+                            central = image_a == 0 and image_b == 0 and image_c == 0
+                            if central and iatom0 == iatom1:
+                                continue
+                            if central:
+                                delta = delta0
+                            else:
+                                # Add linear combination of cell vectors
+                                delta = delta0 + np.dot(cellvecs.T, [image_a, image_b, image_c])
+                            distance = np.linalg.norm(delta)
+                            if distance >= self.rcut:
+                                continue
+                            assert distance > 1.0
+                            # In atomic units, 1/(4*pi*epsilon_0) is numerically equal
+                            # to one, which is nice!
+                            coulomb = (distance**3 + (gamma0*gamma1)**(-3.0/2.0))**(-1.0/3.0)
+                            coulomb *= self.taper(distance)
+                            A[iatom0, iatom1] += coulomb
 
     def compute_charges(self, atsymbols, atpositions, cellvecs, constraints):
         """Compute atomic charges for a single molecules.
@@ -180,66 +230,14 @@ class EEMModel(object):
         natom = len(atsymbols)
         ncon = len(constraints)
 
-        if cellvecs is None:
-            recivecs = None
-            repeat_a = 0
-            repeat_b = 0
-            repeat_c = 0
-        else:
-            recivecs = np.linalg.inv(cellvecs)
-            # Compute the number of images to be considered to include everything within
-            # the cutoff sphere.
-            spacing_a = 1.0/np.linalg.norm(recivecs[:,0])
-            spacing_b = 1.0/np.linalg.norm(recivecs[:,1])
-            spacing_c = 1.0/np.linalg.norm(recivecs[:,2])
-            print('Crystal plane spacings [Å]: {:10.5f} {:10.5f} {:10.5f}'.format(
-                spacing_a/angstrom, spacing_b/angstrom, spacing_c/angstrom))
-            print(self.rcut*np.linalg.norm(recivecs[:,0]))
-            repeat_a = int(np.floor(self.rcut/spacing_a + 0.5))
-            repeat_b = int(np.floor(self.rcut/spacing_b + 0.5))
-            repeat_c = int(np.floor(self.rcut/spacing_c + 0.5))
-            print('Supercell for electrostatics: {} {} {}'.format(2*repeat_a+1, 2*repeat_b+1, 2*repeat_c+1))
+        recivecs, repeats = self._process_cellvecs(cellvecs)
 
-        # Build up the electronegativity vector and hardness matrix, extended with
-        # elements for the Lagrange multiplier, assuming the total charge is zero.
+        # Build up the equations to be solveds
         chi_vector = np.zeros(natom + ncon, float)
         eta_matrix = np.zeros((natom + ncon, natom + ncon), float)
         for icon, (charge, indexes) in enumerate(constraints):
             self._set_constraint(eta_matrix, chi_vector, natom + icon, charge, indexes)
-        for iatom0 in range(natom):
-            chi_vector[iatom0] = self.chis[atsymbols[iatom0]]
-            eta_matrix[iatom0, iatom0] = self.etas[atsymbols[iatom0]]
-            gamma0 = self.gammas[atsymbols[iatom0]]
-            for iatom1 in range(natom):
-                gamma1 = self.gammas[atsymbols[iatom1]]
-                # Get the (naive) minimum image convention
-                delta0 = atpositions[iatom0] - atpositions[iatom1]
-                # Apply minimum image convention
-                if recivecs is not None:
-                    delta0_frac = np.dot(recivecs.T, delta0)
-                    delta0_frac -= np.round(delta0_frac)
-                    delta0 = np.dot(cellvecs.T, delta0_frac)
-                # Loop over all relevant neighboring cells
-                for image_a in range(-repeat_a, repeat_a+1):
-                    for image_b in range(-repeat_b, repeat_b+1):
-                        for image_c in range(-repeat_c, repeat_c+1):
-                            central = image_a == 0 and image_b == 0 and image_c == 0
-                            if central and iatom0 == iatom1:
-                                continue
-                            if central:
-                                delta = delta0
-                            else:
-                                # Add linear combination of cell vectors
-                                delta = delta0 + np.dot(cellvecs.T, [image_a, image_b, image_c])
-                            distance = np.linalg.norm(delta)
-                            if distance >= self.rcut:
-                                continue
-                            assert distance > 1.0
-                            # In atomic units, 1/(4*pi*epsilon_0) is numerically equal
-                            # to one, which is nice!
-                            coulomb = (distance**3 + (gamma0*gamma1)**(-3.0/2.0))**(-1.0/3.0)
-                            coulomb *= self.taper(distance)
-                            eta_matrix[iatom0, iatom1] += coulomb
+        self._set_physics(eta_matrix, chi_vector, atsymbols, atpositions, cellvecs, recivecs, repeats)
 
         # Solve the charges
         charges = np.linalg.solve(eta_matrix, chi_vector)[:natom]
