@@ -1,10 +1,23 @@
+Disclaimer
+----------
+
+This is work in progress! Do not trust the results yet. Things to be done:
+
+- Add a few public domain ffield files.
+- Are parameters correctly read from ffield file? Probably not
+- Switch to (less accurate) unit conversions used in ReaxFF.
+- Write unit tests, e.g. for small unit cells.
+- Figure out why constraints on ACKS2 do not give the same result as disabling charge
+  transfer between fragments. (This could be the right behavior.)
+
+
 Description
 -----------
 
 This is a completely self-contained reference implementation of the EEM and ACKS2 models
-as they are implemented in the ReaxFF model. Many examples are provided to generate
-reference data that can be used to validate the charges obtained with full-blown ReaxFF
-implementations.
+as they are implemented in the ReaxFF model. (In a broader context, EEM and ACKS2 may take
+different forms.) Many structures are provided to generate reference data that can be used
+to validate the charges obtained with full-blown ReaxFF implementations.
 
 
 Requirements
@@ -19,9 +32,10 @@ How to run an example
 
 Just type the following on the command line:
 
-    ./compute_charges.py {eem,acks2} reaxff_parameter_file {XYZ,PDB}
+    ./compute_charges.py {eem,acks2} reaxff_parameter_file xyz_file
 
-Energy (due to charges) and charges are just printed on screen.
+Energy (due to charges) and charges are just printed on screen. XYZ files for molecules
+and periodic structures are included in the repository.
 
 
 References
@@ -30,10 +44,10 @@ References
 Molecular data sets taken from
 
 * S66: http://begdb.com
-* Crystals from COD
+* Crystals from COD: http://www.crystallography.net/cod/
 
-Description of EEM and ACKS2 models in ReaxFF was recently summarized in the following
-paper:
+The mathematical form of the EEM and ACKS2 models in ReaxFF was recently summarized in the
+following paper:
 
 http://dx.doi.org/10.1021/acs.jctc.6b00432
 
