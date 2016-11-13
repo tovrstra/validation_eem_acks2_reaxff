@@ -339,10 +339,13 @@ class ACKS2Model(EEMModel):
             A[natom + iatom, natom + iatom] = 0.0
             A[natom + iatom, natom + iatom] -= A[natom + iatom, natom:2*natom].sum()
         # D) Reduce size of equations
-        A[2*natom+1] = A[-1]
-        A[:, 2*natom+1] = A[:, -1]
-        B[2*natom+1] = B[-1]
-        return A[:2*natom+2, :2*natom+2], B[:2*natom+2]
+        if False:
+            return A, B
+        else:
+            A[2*natom+1] = A[-1]
+            A[:, 2*natom+1] = A[:, -1]
+            B[2*natom+1] = B[-1]
+            return A[:2*natom+2, :2*natom+2], B[:2*natom+2]
 
     def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints):
         """Compute atomic charges for a single molecule or crystal.
@@ -389,10 +392,17 @@ class ACKS2Model(EEMModel):
         potentials = solution[natom:2*natom]
 
         # Compute the energy
-        energy = np.dot(B[:natom], charges)
-        energy += 0.5*np.dot(charges, np.dot(A[:natom,:natom], charges))
-        energy += np.dot(charges - B[natom:2*natom], potentials)
-        energy += 0.5*np.dot(potentials, np.dot(A[natom:2*natom,natom:2*natom], potentials))
+        terms = [
+            np.dot(B[:natom], charges),
+            0.5*np.dot(charges, np.dot(A[:natom,:natom], charges)),
+            np.dot(charges - B[natom:2*natom], potentials),
+            0.5*np.dot(potentials, np.dot(A[natom:2*natom,natom:2*natom], potentials)),
+        ]
+        print('energy 1 eneg [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
+        print('energy 2 hard [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
+        print('energy 3 coup [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
+        print('energy 4 soft [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
+        energy = sum(terms)
 
         return energy, charges
 
