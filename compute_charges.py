@@ -383,12 +383,16 @@ class ACKS2Model(EEMModel):
         if reduce_constraints:
             A, B = self._reduce_constraints(A, B, natom, ncon)
 
-        # Solve the charges
-        charges = np.linalg.solve(A, B)[:natom]
+        # Solve
+        solution = np.linalg.solve(A, B)
+        charges = solution[:natom]
+        potentials = solution[natom:2*natom]
 
         # Compute the energy
-        energy = 0.0
-        #np.dot(chi_vector[:natom], charges) + 0.5*np.dot(charges, np.dot(eta_matrix[:natom,:natom], charges))
+        energy = np.dot(B[:natom], charges)
+        energy += 0.5*np.dot(charges, np.dot(A[:natom,:natom], charges))
+        energy += np.dot(charges - B[natom:2*natom], potentials)
+        energy += 0.5*np.dot(potentials, np.dot(A[natom:2*natom,natom:2*natom], potentials))
 
         return energy, charges
 
