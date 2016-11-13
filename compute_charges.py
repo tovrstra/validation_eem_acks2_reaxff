@@ -132,18 +132,37 @@ class EEMModel(object):
         """Load relevant parameters from a ReaxFF parameter file."""
         with open(ffield) as f:
             lines = f.readlines()
-            self._extract_parameters(lines)
+            # Parse global parameters
+            self.title = lines[0].strip()
+            npar_general = int(lines[1].split()[0])
+            self.general_pars = []
+            for line in lines[2:2+npar_general]:
+                part0, sep, part1 = line.partition('!')
+                self.general_pars.append((float(part0), part1))
+            npar_element = int(lines[2+npar_general].split()[0])
+            self.atom_pars = {}
+            for ielement in range(npar_element):
+                row = []
+                words = lines[6+npar_general+4*ielement].split()
+                symbol = words[0].lower()
+                row.extend([float(word) for word in words[1:]])
+                words = lines[7+npar_general+4*ielement].split()
+                row.extend([float(word) for word in words])
+                words = lines[8+npar_general+4*ielement].split()
+                row.extend([float(word) for word in words])
+                words = lines[9+npar_general+4*ielement].split()
+                row.extend([float(word) for word in words])
+                self.atom_pars[symbol] = np.array(row)
+            self._extract_parameters()
 
-    def _extract_parameters(self, lines):
+    def _extract_parameters(self):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
-        self.rcut = float(lines[14].split()[0])*angstrom
+        self.rcut = self.general_pars[12][0]*angstrom
         print('Coulomb cutoff [Å]: {:10.5f}'.format(self.rcut/angstrom))
-        nelement = int(lines[41].split()[0])
-        for ielement in range(nelement):
-            symbol = lines[45+ielement*4].split()[0].lower()
-            self.gammas[symbol] = float(lines[45+ielement*4].split()[6])*(1/angstrom)
-            self.chis[symbol] = float(lines[46+ielement*4].split()[5])*electronvolt
-            self.etas[symbol] = float(lines[46+ielement*4].split()[6])*electronvolt
+        for symbol, values in self.atom_pars.items():
+            self.gammas[symbol] = values[5]*(1/angstrom)
+            self.chis[symbol] = values[13]*electronvolt
+            self.etas[symbol] = values[14]*electronvolt
 
     def _process_cellvecs(self, cellvecs):
         if cellvecs is None:
@@ -278,14 +297,12 @@ class ACKS2Model(EEMModel):
         self.bsoft_amp = None
         self.bsoft_radii = {}
 
-    def _extract_parameters(self, lines):
+    def _extract_parameters(self):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
-        EEMModel._extract_parameters(self, lines)
-        self.bsoft_amp = float(lines[36].split()[0])
-        nelement = int(lines[41].split()[0])
-        for ielement in range(nelement):
-            symbol = lines[45+ielement*4].split()[0].lower()
-            self.bsoft_radii[symbol] = float(lines[47+ielement*4].split()[7])*(1/angstrom)
+        EEMModel._extract_parameters(self)
+        self.bsoft_amp = self.general_pars[34][0]/electronvolt
+        for symbol, values in self.atom_pars.items():
+            self.bsoft_radii[symbol] = values[22]*angstrom
 
     def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
         EEMModel._set_physics_atom(self, A, B, atsymbols, iatom, natom)
@@ -373,6 +390,46 @@ class ACKS2Model(EEMModel):
         #np.dot(chi_vector[:natom], charges) + 0.5*np.dot(charges, np.dot(eta_matrix[:natom,:natom], charges))
 
         return energy, charges
+
+
+def test_eem_read_parameters():
+    model = EEMModel()
+    model.load_parameters('ffield_eem')
+    np.testing.assert_equal(model.rcut, 10.0*angstrom)
+    np.testing.assert_equal(model.gammas['c'], 1.0000/angstrom)
+    np.testing.assert_equal(model.chis['c'], 4.8000*electronvolt)
+    np.testing.assert_equal(model.etas['c'], 6.7000*electronvolt)
+
+    np.testing.assert_equal(model.gammas['h'], 0.8203/angstrom)
+    np.testing.assert_equal(model.chis['h'], 3.7248*electronvolt)
+    np.testing.assert_equal(model.etas['h'], 9.6093*electronvolt)
+
+    np.testing.assert_equal(model.gammas['o'], 1.0898/angstrom)
+    np.testing.assert_equal(model.chis['o'], 8.5000*electronvolt)
+    np.testing.assert_equal(model.etas['o'], 8.3122*electronvolt)
+
+
+def test_acks2_read_parameters():
+    model = ACKS2Model()
+    model.load_parameters('ffield_acks2')
+    np.testing.assert_equal(model.rcut, 10.0*angstrom)
+    np.testing.assert_equal(model.bsoft_amp, 548.6451/electronvolt)
+
+    np.testing.assert_equal(model.gammas['c'], 0.3500/angstrom)
+    np.testing.assert_equal(model.chis['c'], 5.3422*electronvolt)
+    np.testing.assert_equal(model.etas['c'], 4.5000*electronvolt)
+    np.testing.assert_equal(model.bsoft_radii['c'], 3.1838*angstrom)
+
+    np.testing.assert_equal(model.gammas['h'], 0.6683/angstrom)
+    np.testing.assert_equal(model.chis['h'], 4.9673*electronvolt)
+    np.testing.assert_equal(model.etas['h'], 6.2079*electronvolt)
+    np.testing.assert_equal(model.bsoft_radii['h'], 3.4114*angstrom)
+
+    np.testing.assert_equal(model.gammas['o'], 0.5500/angstrom)
+    np.testing.assert_equal(model.chis['o'], 8.5000*electronvolt)
+    np.testing.assert_equal(model.etas['o'], 7.9071*electronvolt)
+    np.testing.assert_equal(model.bsoft_radii['o'], 5.4479*angstrom)
+
 
 if __name__ == '__main__':
     main()

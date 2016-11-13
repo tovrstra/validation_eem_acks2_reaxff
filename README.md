@@ -3,8 +3,6 @@ Disclaimer
 
 This is work in progress! Do not trust the results yet. Things to be done:
 
-- Add a few public domain ffield files.
-- Are parameters correctly read from ffield file? Probably not
 - Switch to (less accurate) unit conversions used in ReaxFF.
 - Write unit tests, e.g. for small unit cells.
 - Figure out why constraints on ACKS2 do not give the same result as disabling charge
@@ -23,7 +21,7 @@ to validate the charges obtained with full-blown ReaxFF implementations.
 Requirements
 ------------
 
-* Python >= 2.7
+* Python >= 3.0
 * Numpy >= 1.0
 
 
@@ -35,7 +33,10 @@ Just type the following on the command line:
     ./compute_charges.py {eem,acks2} reaxff_parameter_file xyz_file
 
 Energy (due to charges) and charges are just printed on screen. XYZ files for molecules
-and periodic structures are included in the repository.
+and periodic structures are included in the repository. Two dummy ReaxFF parameter files
+are provided: ffield_eem and ffield_acks2. Unit tests can be executed as follows:
+
+    nosetests3 ./compute_charges.py
 
 
 References
