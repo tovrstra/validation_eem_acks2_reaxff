@@ -1,0 +1,34 @@
+BIOGRF 200
+DESCRP Created with HORTON
+FORCEFIELD DREIDING  
+FORMAT ATOM   (a6,1x,i5,1x,a5,1x,a3,1x,a1,1x,a5,3f10.5,1x,a5,i3,i2,1x,f8.5)
+HETATM     1 O1    RES A   444  -0.78656   0.04517  -0.00719 O_3    2 0 -0.39823
+HETATM     2 H2    RES A   444   0.17771   0.01270  -0.00684 H_HB   1 0  0.20902
+HETATM     3 C3    RES A   444  -1.24799  -1.29028   0.00108 C_3    4 0  0.03297
+HETATM     4 H4    RES A   444  -2.33428  -1.25890   0.00022 H_     1 0  0.05208
+HETATM     5 H5    RES A   444  -0.92597  -1.84977  -0.88045 H_     1 0  0.05208
+HETATM     6 H6    RES A   444  -0.92703  -1.83846   0.89008 H_     1 0  0.05208
+HETATM     7 O7    RES A   444   2.16185  -0.05242  -0.00471 O_3    2 0 -0.41047
+HETATM     8 H8    RES A   444   2.60105   0.33573  -0.76458 H_HB   1 0  0.20523
+HETATM     9 H9    RES A   444   2.59973   0.35019   0.74838 H_HB   1 0  0.20523
+FORMAT CONECT (a6,12i6)
+
+CONECT     1     2     3
+ORDER      1     1     1
+CONECT     2     1
+ORDER      2     1
+CONECT     3     5     1     4     6
+ORDER      3     1     1     1     1
+CONECT     4     3
+ORDER      4     1
+CONECT     5     3
+ORDER      5     1
+CONECT     6     3
+ORDER      6     1
+CONECT     7     8     9
+ORDER      7     1     1
+CONECT     8     7
+ORDER      8     1
+CONECT     9     7
+ORDER      9     1
+END

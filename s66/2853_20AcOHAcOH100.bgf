@@ -1,0 +1,55 @@
+BIOGRF 200
+DESCRP Created with HORTON
+FORCEFIELD DREIDING  
+FORMAT ATOM   (a6,1x,i5,1x,a5,1x,a3,1x,a1,1x,a5,3f10.5,1x,a5,i3,i2,1x,f8.5)
+HETATM     1 C1    RES A   444  -1.06171   1.29714   0.29206 C_2    3 0  0.30156
+HETATM     2 O2    RES A   444  -0.35816   2.27046   0.53181 O_2    1 0 -0.25133
+HETATM     3 O3    RES A   444  -0.58930   0.09492   0.00379 O_3    2 0 -0.48080
+HETATM     4 H4    RES A   444   0.40444   0.12772   0.01841 H_HB   1 0  0.29504
+HETATM     5 C5    RES A   444  -2.55843   1.34255   0.29626 C_3    4 0  0.03307
+HETATM     6 H6    RES A   444  -2.89600   2.34746   0.51832 H_     1 0  0.03415
+HETATM     7 H7    RES A   444  -2.93289   1.02239  -0.67300 H_     1 0  0.03415
+HETATM     8 H8    RES A   444  -2.93721   0.64491   1.03956 H_     1 0  0.03415
+HETATM     9 C9    RES A   444   2.79956   1.10846   0.27126 C_2    3 0  0.30156
+HETATM    10 O10   RES A   444   2.09595   0.13515   0.03147 O_2    1 0 -0.25133
+HETATM    11 O11   RES A   444   2.32714   2.31090   0.55904 O_3    2 0 -0.48080
+HETATM    12 H12   RES A   444   1.33335   2.27800   0.54464 H_HB   1 0  0.29504
+HETATM    13 C13   RES A   444   4.29628   1.06256   0.26930 C_3    4 0  0.03307
+HETATM    14 H14   RES A   444   4.63386   0.06124   0.03177 H_     1 0  0.03415
+HETATM    15 H15   RES A   444   4.67778   1.77291  -0.46017 H_     1 0  0.03415
+HETATM    16 H16   RES A   444   4.66779   1.36526   1.24535 H_     1 0  0.03415
+FORMAT CONECT (a6,12i6)
+
+CONECT     1     3     5     2
+ORDER      1     1     1     2
+CONECT     2     1
+ORDER      2     2
+CONECT     3     4     1
+ORDER      3     1     1
+CONECT     4     3
+ORDER      4     1
+CONECT     5     7     1     6     8
+ORDER      5     1     1     1     1
+CONECT     6     5
+ORDER      6     1
+CONECT     7     5
+ORDER      7     1
+CONECT     8     5
+ORDER      8     1
+CONECT     9    10    13    11
+ORDER      9     2     1     1
+CONECT    10     9
+ORDER     10     2
+CONECT    11     9    12
+ORDER     11     1     1
+CONECT    12    11
+ORDER     12     1
+CONECT    13    15    14     9    16
+ORDER     13     1     1     1     1
+CONECT    14    13
+ORDER     14     1
+CONECT    15    13
+ORDER     15     1
+CONECT    16    13
+ORDER     16     1
+END

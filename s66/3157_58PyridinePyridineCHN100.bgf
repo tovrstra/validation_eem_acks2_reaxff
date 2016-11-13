@@ -1,0 +1,73 @@
+BIOGRF 200
+DESCRP Created with HORTON
+FORCEFIELD DREIDING  
+FORMAT ATOM   (a6,1x,i5,1x,a5,1x,a3,1x,a1,1x,a5,3f10.5,1x,a5,i3,i2,1x,f8.5)
+HETATM     1 N1    RES A   444  -0.94121   0.79004   0.01172 N_2    2 0 -0.42341
+HETATM     2 C2    RES A   444  -0.92276  -0.55238   0.03538 C_2    3 0  0.07717
+HETATM     3 H3    RES A   444   0.05724  -1.01559   0.05135 H_     1 0  0.09691
+HETATM     4 C4    RES A   444  -2.07652  -1.33302   0.03929 C_2    3 0 -0.03504
+HETATM     5 H5    RES A   444  -1.99653  -2.41059   0.05888 H_     1 0  0.06401
+HETATM     6 C6    RES A   444  -3.31631  -0.70334   0.01760 C_2    3 0 -0.07140
+HETATM     7 H7    RES A   444  -4.23157  -1.27908   0.01979 H_     1 0  0.05798
+HETATM     8 C8    RES A   444  -3.34890   0.68702  -0.00709 C_3    4 0  0.03605
+HETATM     9 H9    RES A   444  -4.28544   1.22610  -0.02466 H_     1 0  0.04205
+HETATM    10 C10   RES A   444  -2.14310   1.38263  -0.00889 C_2    3 0  0.06293
+HETATM    11 H11   RES A   444  -2.13810   2.46565  -0.02778 H_     1 0  0.09275
+HETATM    12 N12   RES A   444   2.53598  -0.94996   0.04251 N_2    2 0 -0.42341
+HETATM    13 C13   RES A   444   3.73776  -1.54313   0.04459 C_2    3 0  0.07717
+HETATM    14 H14   RES A   444   3.73254  -2.62609   0.06648 H_     1 0  0.09691
+HETATM    15 C15   RES A   444   4.94370  -0.84817   0.02059 C_2    3 0 -0.03504
+HETATM    16 H16   RES A   444   5.88014  -1.38771   0.02369 H_     1 0  0.06401
+HETATM    17 C17   RES A   444   4.91138   0.54213  -0.00715 C_2    3 0 -0.07140
+HETATM    18 H18   RES A   444   5.82676   1.11738  -0.02634 H_     1 0  0.05798
+HETATM    19 C19   RES A   444   3.67170   1.17242  -0.00963 C_3    4 0  0.03605
+HETATM    20 H20   RES A   444   3.59193   2.24998  -0.03072 H_     1 0  0.04205
+HETATM    21 C21   RES A   444   2.51779   0.39241   0.01556 C_2    3 0  0.06293
+HETATM    22 H22   RES A   444   1.53788   0.85607   0.01390 H_     1 0  0.09275
+FORMAT CONECT (a6,12i6)
+
+CONECT     1    10     2
+ORDER      1     2     2
+CONECT     2     1     4     3
+ORDER      2     2     1     1
+CONECT     3     2
+ORDER      3     1
+CONECT     4     6     2     5
+ORDER      4     2     1     1
+CONECT     5     4
+ORDER      5     1
+CONECT     6     8     7     4
+ORDER      6     1     1     2
+CONECT     7     6
+ORDER      7     1
+CONECT     8     9    10     6
+ORDER      8     1     1     1
+CONECT     9     8
+ORDER      9     1
+CONECT    10    11     8     1
+ORDER     10     1     1     2
+CONECT    11    10
+ORDER     11     1
+CONECT    12    21    13
+ORDER     12     2     2
+CONECT    13    15    12    14
+ORDER     13     1     2     1
+CONECT    14    13
+ORDER     14     1
+CONECT    15    17    16    13
+ORDER     15     2     1     1
+CONECT    16    15
+ORDER     16     1
+CONECT    17    18    19    15
+ORDER     17     1     1     2
+CONECT    18    17
+ORDER     18     1
+CONECT    19    20    17    21
+ORDER     19     1     1     1
+CONECT    20    19
+ORDER     20     1
+CONECT    21    19    22    12
+ORDER     21     1     1     2
+CONECT    22    21
+ORDER     22     1
+END

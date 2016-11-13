@@ -1,0 +1,76 @@
+BIOGRF 200
+DESCRP Created with HORTON
+FORCEFIELD DREIDING  
+FORMAT ATOM   (a6,1x,i5,1x,a5,1x,a3,1x,a1,1x,a5,3f10.5,1x,a5,i3,i2,1x,f8.5)
+HETATM     1 N1    RES A   444   1.21076   0.02868   0.32971 N_2    2 0 -0.42341
+HETATM     2 C2    RES A   444   0.61193  -1.15845   0.15345 C_2    3 0  0.06293
+HETATM     3 H3    RES A   444   1.25148  -2.02952   0.21929 H_     1 0  0.09275
+HETATM     4 C4    RES A   444  -0.75131  -1.30865  -0.08883 C_3    4 0  0.03605
+HETATM     5 H5    RES A   444  -1.17042  -2.29687  -0.21338 H_     1 0  0.04205
+HETATM     6 C6    RES A   444  -1.54787  -0.16994  -0.15647 C_2    3 0 -0.07140
+HETATM     7 H7    RES A   444  -2.61101  -0.24595  -0.33876 H_     1 0  0.05798
+HETATM     8 C8    RES A   444  -0.94362   1.07064   0.01982 C_2    3 0 -0.03504
+HETATM     9 H9    RES A   444  -1.51881   1.98450  -0.01164 H_     1 0  0.06401
+HETATM    10 C10   RES A   444   0.42772   1.11611   0.25735 C_2    3 0  0.07717
+HETATM    11 H11   RES A   444   0.92469   2.06805   0.39755 H_     1 0  0.09691
+HETATM    12 N12   RES A   444  -0.71483  -0.28490   3.27884 N_R    2 0 -0.27510
+HETATM    13 H13   RES A   444  -1.60972  -0.71677   3.09423 H_     1 0  0.17342
+HETATM    14 C14   RES A   444  -0.71458   1.11291   3.37185 C_R    3 0  0.25390
+HETATM    15 O15   RES A   444  -1.75446   1.74111   3.25700 O_2    1 0 -0.26773
+HETATM    16 C16   RES A   444   0.60491   1.67199   3.59941 C_R    3 0  0.01893
+HETATM    17 H17   RES A   444   0.70623   2.73921   3.69528 H_     1 0  0.06861
+HETATM    18 C18   RES A   444   1.67479   0.85329   3.67093 C_R    3 0  0.01146
+HETATM    19 H19   RES A   444   2.67867   1.22196   3.81936 H_     1 0  0.08099
+HETATM    20 N20   RES A   444   1.55673  -0.50400   3.55838 N_R    2 0 -0.31431
+HETATM    21 H21   RES A   444   2.37016  -1.09619   3.55021 H_     1 0  0.16980
+HETATM    22 C22   RES A   444   0.35628  -1.15123   3.33199 C_R    3 0  0.32672
+HETATM    23 O23   RES A   444   0.26414  -2.35665   3.19841 O_2    1 0 -0.24669
+FORMAT CONECT (a6,12i6)
+
+CONECT     1     2    10
+ORDER      1     2     2
+CONECT     2     4     3     1
+ORDER      2     1     1     2
+CONECT     3     2
+ORDER      3     1
+CONECT     4     5     6     2
+ORDER      4     1     1     1
+CONECT     5     4
+ORDER      5     1
+CONECT     6     7     4     8
+ORDER      6     1     1     2
+CONECT     7     6
+ORDER      7     1
+CONECT     8     6     9    10
+ORDER      8     2     1     1
+CONECT     9     8
+ORDER      9     1
+CONECT    10     8     1    11
+ORDER     10     1     2     1
+CONECT    11    10
+ORDER     11     1
+CONECT    12    13    22    14
+ORDER     12     1     1     1
+CONECT    13    12
+ORDER     13     1
+CONECT    14    15    12    16
+ORDER     14     2     1     1
+CONECT    15    14
+ORDER     15     2
+CONECT    16    14    18    17
+ORDER     16     1     2     1
+CONECT    17    16
+ORDER     17     1
+CONECT    18    20    16    19
+ORDER     18     1     2     1
+CONECT    19    18
+ORDER     19     1
+CONECT    20    22    21    18
+ORDER     20     1     1     1
+CONECT    21    20
+ORDER     21     1
+CONECT    22    23    12    20
+ORDER     22     2     1     1
+CONECT    23    22
+ORDER     23     2
+END

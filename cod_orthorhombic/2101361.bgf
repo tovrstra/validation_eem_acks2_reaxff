@@ -1,0 +1,124 @@
+BIOGRF 200
+DESCRP cod_orthorhombic/2101361.pdb
+FORCEFIELD DREIDING  
+CRYSTX     6.01700     6.01700     8.26700    90.00000    90.00000    90.00000
+FORMAT ATOM   (a6,1x,i5,1x,a5,1x,a3,1x,a1,1x,a5,3f10.5,1x,a5,i3,i2,1x,f8.5)
+HETATM     1 C1    RES A   444   0.00000   0.00000   0.00000 C_3    4 0  0.00000
+HETATM     2 C2    RES A   444   3.00900   3.00900   4.13300 C_3    4 0  0.06286
+HETATM     3 C3    RES A   444   0.96300   0.76100   7.34900 C_3    4 0  0.10913
+HETATM     4 C4    RES A   444   5.05500   5.25600   7.34900 C_3    4 0  0.10913
+HETATM     5 C5    RES A   444   0.76100   5.05500   0.91800 C_3    4 0  0.10913
+HETATM     6 C6    RES A   444   5.25600   0.96300   0.91800 C_3    4 0  0.10913
+HETATM     7 C7    RES A   444   3.97100   3.77000   3.21500 C_3    4 0  0.05614
+HETATM     8 C8    RES A   444   2.04600   2.24700   3.21500 C_3    4 0  0.05614
+HETATM     9 C9    RES A   444   3.77000   2.04600   5.05200 C_3    4 0  0.05614
+HETATM    10 C10   RES A   444   2.24700   3.97100   5.05200 C_3    4 0  0.05614
+HETATM    11 O11   RES A   444   1.93700   1.48000   8.10300 O_3    2 0 -0.23226
+HETATM    12 O12   RES A   444   4.08000   4.53700   8.10300 O_3    2 0 -0.23226
+HETATM    13 O13   RES A   444   1.48000   4.08000   0.16400 O_3    2 0 -0.23226
+HETATM    14 O14   RES A   444   4.53700   1.93700   0.16400 O_3    2 0 -0.23226
+HETATM    15 O15   RES A   444   4.94600   4.48900   3.97000 O_3    2 0 -0.39423
+HETATM    16 O16   RES A   444   1.07200   1.52800   3.97000 O_3    2 0 -0.39423
+HETATM    17 O17   RES A   444   4.48900   1.07200   4.29700 O_3    2 0 -0.39423
+HETATM    18 O18   RES A   444   1.52800   4.94600   4.29700 O_3    2 0 -0.39423
+HETATM    19 H19   RES A   444   1.31800   0.15600   6.78700 H_     1 0  0.06156
+HETATM    20 H20   RES A   444   4.70000   5.86100   6.78700 H_     1 0  0.06156
+HETATM    21 H21   RES A   444   0.15600   4.70000   1.48000 H_     1 0  0.06156
+HETATM    22 H22   RES A   444   5.86100   1.31800   1.48000 H_     1 0  0.06156
+HETATM    23 H23   RES A   444   4.32600   3.16500   2.65400 H_     1 0  0.05648
+HETATM    24 H24   RES A   444   1.69100   2.85200   2.65400 H_     1 0  0.05648
+HETATM    25 H25   RES A   444   3.16500   1.69100   5.61300 H_     1 0  0.05648
+HETATM    26 H26   RES A   444   2.85200   4.32600   5.61300 H_     1 0  0.05648
+HETATM    27 H27   RES A   444   0.37900   1.40800   6.76200 H_     1 0  0.06156
+HETATM    28 H28   RES A   444   5.63800   4.60900   6.76200 H_     1 0  0.06156
+HETATM    29 H29   RES A   444   1.40800   5.63800   1.50500 H_     1 0  0.06156
+HETATM    30 H30   RES A   444   4.60900   0.37900   1.50500 H_     1 0  0.06156
+HETATM    31 H31   RES A   444   3.38800   4.41700   2.62900 H_     1 0  0.05648
+HETATM    32 H32   RES A   444   2.63000   1.60100   2.62900 H_     1 0  0.05648
+HETATM    33 H33   RES A   444   4.41700   2.63000   5.63800 H_     1 0  0.05648
+HETATM    34 H34   RES A   444   1.60100   3.38800   5.63800 H_     1 0  0.05648
+HETATM    35 H35   RES A   444   1.66700   2.21400   0.09900 H_     1 0  0.00000
+HETATM    36 H36   RES A   444   4.35100   3.80300   0.09900 H_     1 0  0.00000
+HETATM    37 H37   RES A   444   2.21400   4.35100   8.16800 H_     1 0  0.00000
+HETATM    38 H38   RES A   444   3.80300   1.66700   8.16800 H_     1 0  0.00000
+HETATM    39 H39   RES A   444   4.67500   5.22300   4.23300 H_HB   1 0  0.20942
+HETATM    40 H40   RES A   444   1.34200   0.79400   4.23300 H_HB   1 0  0.20942
+HETATM    41 H41   RES A   444   5.22300   1.34200   4.03400 H_HB   1 0  0.20942
+HETATM    42 H42   RES A   444   0.79400   4.67500   4.03400 H_HB   1 0  0.20942
+FORMAT CONECT (a6,12i6)
+
+CONECT     2     8     7    10     9
+ORDER      2     1     1     1     1
+CONECT     3    27    19    11
+ORDER      3     1     1     1
+CONECT     4    28    20    12
+ORDER      4     1     1     1
+CONECT     5    13    21    29
+ORDER      5     1     1     1
+CONECT     6    14    22    30
+ORDER      6     1     1     1
+CONECT     7    31    23    15     2
+ORDER      7     1     1     1     1
+CONECT     8    32    24    16     2
+ORDER      8     1     1     1     1
+CONECT     9     2    17    25    33
+ORDER      9     1     1     1     1
+CONECT    10     2    18    26    34
+ORDER     10     1     1     1     1
+CONECT    11     3
+ORDER     11     1
+CONECT    12     4
+ORDER     12     1
+CONECT    13     5
+ORDER     13     1
+CONECT    14     6
+ORDER     14     1
+CONECT    15     7    39
+ORDER     15     1     1
+CONECT    16     8    40
+ORDER     16     1     1
+CONECT    17    41     9
+ORDER     17     1     1
+CONECT    18    42    10
+ORDER     18     1     1
+CONECT    19     3
+ORDER     19     1
+CONECT    20     4
+ORDER     20     1
+CONECT    21     5
+ORDER     21     1
+CONECT    22     6
+ORDER     22     1
+CONECT    23     7
+ORDER     23     1
+CONECT    24     8
+ORDER     24     1
+CONECT    25     9
+ORDER     25     1
+CONECT    26    10
+ORDER     26     1
+CONECT    27     3
+ORDER     27     1
+CONECT    28     4
+ORDER     28     1
+CONECT    29     5
+ORDER     29     1
+CONECT    30     6
+ORDER     30     1
+CONECT    31     7
+ORDER     31     1
+CONECT    32     8
+ORDER     32     1
+CONECT    33     9
+ORDER     33     1
+CONECT    34    10
+ORDER     34     1
+CONECT    39    15
+ORDER     39     1
+CONECT    40    16
+ORDER     40     1
+CONECT    41    17
+ORDER     41     1
+CONECT    42    18
+ORDER     42     1
+END

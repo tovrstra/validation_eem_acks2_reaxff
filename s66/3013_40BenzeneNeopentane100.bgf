@@ -1,0 +1,94 @@
+BIOGRF 200
+DESCRP Created with HORTON
+FORCEFIELD DREIDING  
+FORMAT ATOM   (a6,1x,i5,1x,a5,1x,a3,1x,a1,1x,a5,3f10.5,1x,a5,i3,i2,1x,f8.5)
+HETATM     1 C1    RES A   444   0.31195   0.56102   0.49670 C_R    3 0 -0.06176
+HETATM     2 H2    RES A   444   0.74214   1.55337   0.48157 H_     1 0  0.06176
+HETATM     3 C3    RES A   444   1.14218  -0.55807   0.53606 C_R    3 0 -0.06176
+HETATM     4 H4    RES A   444   2.21651  -0.43425   0.55235 H_     1 0  0.06176
+HETATM     5 C5    RES A   444   0.58780  -1.83669   0.55414 C_R    3 0 -0.06176
+HETATM     6 H6    RES A   444   1.23191  -2.70484   0.58522 H_     1 0  0.06176
+HETATM     7 C7    RES A   444  -0.79666  -1.99638   0.53296 C_R    3 0 -0.06176
+HETATM     8 H8    RES A   444  -1.22677  -2.98844   0.54864 H_     1 0  0.06176
+HETATM     9 C9    RES A   444  -1.62689  -0.87747   0.49417 C_R    3 0 -0.06176
+HETATM    10 H10   RES A   444  -2.70112  -1.00135   0.47981 H_     1 0  0.06176
+HETATM    11 C11   RES A   444  -1.07267   0.40121   0.47597 C_R    3 0 -0.06176
+HETATM    12 H12   RES A   444  -1.71697   1.26940   0.44592 H_     1 0  0.06176
+HETATM    13 C13   RES A   444   0.17110   0.50664   4.81892 C_3    4 0 -0.04053
+HETATM    14 C14   RES A   444   1.61735   0.68543   4.36395 C_3    4 0 -0.06031
+HETATM    15 H15   RES A   444   2.03321   1.61871   4.74738 H_     1 0  0.02348
+HETATM    16 H16   RES A   444   2.24075  -0.13519   4.72281 H_     1 0  0.02348
+HETATM    17 H17   RES A   444   1.67796   0.70482   3.27502 H_     1 0  0.02348
+HETATM    18 C18   RES A   444   0.11671   0.47527   6.34378 C_3    4 0 -0.06031
+HETATM    19 H19   RES A   444  -0.90908   0.34785   6.69287 H_     1 0  0.02348
+HETATM    20 H20   RES A   444   0.71212  -0.35042   6.73633 H_     1 0  0.02348
+HETATM    21 H21   RES A   444   0.50501   1.40315   6.76669 H_     1 0  0.02348
+HETATM    22 C22   RES A   444  -0.37828  -0.80285   4.25862 C_3    4 0 -0.06031
+HETATM    23 H23   RES A   444  -1.41315  -0.95313   4.57129 H_     1 0  0.02348
+HETATM    24 H24   RES A   444   0.20818  -1.65182   4.61443 H_     1 0  0.02348
+HETATM    25 H25   RES A   444  -0.34950  -0.80330   3.16831 H_     1 0  0.02348
+HETATM    26 C26   RES A   444  -0.67027   1.67121   4.30271 C_3    4 0 -0.06031
+HETATM    27 H27   RES A   444  -0.64873   1.70724   3.21271 H_     1 0  0.02348
+HETATM    28 H28   RES A   444  -1.71006   1.56744   4.61719 H_     1 0  0.02348
+HETATM    29 H29   RES A   444  -0.29462   2.62191   4.68482 H_     1 0  0.02348
+FORMAT CONECT (a6,12i6)
+
+CONECT     1    11     2     3
+ORDER      1     1     1     2
+CONECT     2     1
+ORDER      2     1
+CONECT     3     1     4     5
+ORDER      3     2     1     1
+CONECT     4     3
+ORDER      4     1
+CONECT     5     7     3     6
+ORDER      5     2     1     1
+CONECT     6     5
+ORDER      6     1
+CONECT     7     9     8     5
+ORDER      7     1     1     2
+CONECT     8     7
+ORDER      8     1
+CONECT     9    11    10     7
+ORDER      9     2     1     1
+CONECT    10     9
+ORDER     10     1
+CONECT    11    12     9     1
+ORDER     11     1     2     1
+CONECT    12    11
+ORDER     12     1
+CONECT    13    22    26    14    18
+ORDER     13     1     1     1     1
+CONECT    14    17    16    15    13
+ORDER     14     1     1     1     1
+CONECT    15    14
+ORDER     15     1
+CONECT    16    14
+ORDER     16     1
+CONECT    17    14
+ORDER     17     1
+CONECT    18    13    19    20    21
+ORDER     18     1     1     1     1
+CONECT    19    18
+ORDER     19     1
+CONECT    20    18
+ORDER     20     1
+CONECT    21    18
+ORDER     21     1
+CONECT    22    25    23    24    13
+ORDER     22     1     1     1     1
+CONECT    23    22
+ORDER     23     1
+CONECT    24    22
+ORDER     24     1
+CONECT    25    22
+ORDER     25     1
+CONECT    26    27    28    29    13
+ORDER     26     1     1     1     1
+CONECT    27    26
+ORDER     27     1
+CONECT    28    26
+ORDER     28     1
+CONECT    29    26
+ORDER     29     1
+END

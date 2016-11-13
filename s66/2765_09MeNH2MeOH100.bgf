@@ -1,0 +1,46 @@
+BIOGRF 200
+DESCRP Created with HORTON
+FORCEFIELD DREIDING  
+FORMAT ATOM   (a6,1x,i5,1x,a5,1x,a3,1x,a1,1x,a5,3f10.5,1x,a5,i3,i2,1x,f8.5)
+HETATM     1 N1    RES A   444  -0.89345  -0.04384  -0.04300 N_3    3 0 -0.33275
+HETATM     2 H2    RES A   444   0.09695  -0.25606  -0.07107 H_     1 0  0.11795
+HETATM     3 H3    RES A   444  -1.36844  -0.93339   0.03384 H_     1 0  0.11795
+HETATM     4 C4    RES A   444  -1.17578   0.75791   1.14524 C_3    4 0 -0.01882
+HETATM     5 H5    RES A   444  -2.24163   0.97222   1.19502 H_     1 0  0.03855
+HETATM     6 H6    RES A   444  -0.88079   0.30425   2.09721 H_     1 0  0.03855
+HETATM     7 H7    RES A   444  -0.66301   1.71433   1.06081 H_     1 0  0.03855
+HETATM     8 O8    RES A   444   2.34703  -0.04151   0.03065 O_3    2 0 -0.39823
+HETATM     9 H9    RES A   444   2.62906   0.32844  -0.80921 H_HB   1 0  0.20902
+HETATM    10 C10   RES A   444   2.73294   0.87007   1.05009 C_3    4 0  0.03297
+HETATM    11 H11   RES A   444   2.40976   0.44044   1.99316 H_     1 0  0.05208
+HETATM    12 H12   RES A   444   3.81400   1.00916   1.08913 H_     1 0  0.05208
+HETATM    13 H13   RES A   444   2.25447   1.84367   0.93491 H_     1 0  0.05208
+FORMAT CONECT (a6,12i6)
+
+CONECT     1     2     3     4
+ORDER      1     1     1     1
+CONECT     2     1
+ORDER      2     1
+CONECT     3     1
+ORDER      3     1
+CONECT     4     1     7     5     6
+ORDER      4     1     1     1     1
+CONECT     5     4
+ORDER      5     1
+CONECT     6     4
+ORDER      6     1
+CONECT     7     4
+ORDER      7     1
+CONECT     8     9    10
+ORDER      8     1     1
+CONECT     9     8
+ORDER      9     1
+CONECT    10     8    13    12    11
+ORDER     10     1     1     1     1
+CONECT    11    10
+ORDER     11     1
+CONECT    12    10
+ORDER     12     1
+CONECT    13    10
+ORDER     13     1
+END
