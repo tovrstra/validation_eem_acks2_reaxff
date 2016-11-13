@@ -4,6 +4,8 @@ Disclaimer
 This is work in progress! Do not trust the results yet. Things to be done:
 
 - Switch to (less accurate) unit conversions used in ReaxFF.
+- Double check parameter positions once more in ffield file.
+- Double check ones more with ReaxFF wiki.
 - Figure out why constraints on ACKS2 do not give the same result as disabling charge
   transfer between fragments. (This could be the right behavior.)
 

@@ -312,7 +312,7 @@ class ACKS2Model(EEMModel):
 
     def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance):
         EEMModel._set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance)
-        bsoft_rcut = self.bsoft_radii[atsymbols[iatom0]] + self.bsoft_radii[atsymbols[iatom1]]
+        bsoft_rcut = (self.bsoft_radii[atsymbols[iatom0]] + self.bsoft_radii[atsymbols[iatom1]])/2
         assert bsoft_rcut < self.rcut
         if distance < bsoft_rcut:
             x = distance/bsoft_rcut
