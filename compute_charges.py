@@ -127,6 +127,7 @@ class EEMModel(object):
         self.gammas = {}
         self.chis = {}
         self.etas = {}
+        self.rmin = 1.0
 
     def load_parameters(self, ffield):
         """Load relevant parameters from a ReaxFF parameter file."""
@@ -226,7 +227,7 @@ class EEMModel(object):
                             distance = np.linalg.norm(delta)
                             if distance >= self.rcut:
                                 continue
-                            assert distance > 1.0
+                            assert distance > self.rmin
                             self._set_physics_atom_pair(A, B, atsymbols, iatom0, iatom1, natom, distance)
 
     def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
@@ -429,6 +430,47 @@ def test_acks2_read_parameters():
     np.testing.assert_equal(model.chis['o'], 8.5000*electronvolt)
     np.testing.assert_equal(model.etas['o'], 7.9071*electronvolt)
     np.testing.assert_equal(model.bsoft_radii['o'], 5.4479*angstrom)
+
+
+def test_cutoff():
+    # Make sure that sufficient neigboring images are taken into account to find all
+    # pairs below a given cutoff.
+    class TestModel(EEMModel):
+        def __init__(self):
+            EEMModel.__init__(self)
+            self.rcut = 5.0
+            self.rmin = 0.0
+
+        def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
+            pass
+
+        def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance):
+           if distance < self.rcut:
+                self.distances.append(distance)
+
+    model = TestModel()
+    for i in range(10):
+        # Get a reasonable cell
+        while True:
+            cellvecs = np.random.normal(0, 10, (3, 3))
+            if abs(np.linalg.det(cellvecs)) > 8*8*8:
+                break
+        # Add some atoms, well beyond wrapping convention, to make it "more difficult".
+        natom = 12
+        atpositions = np.dot(np.random.uniform(-1, 2, (natom, 3)), cellvecs)
+        atsymbols = ['H']*natom
+        # Request the settings for periodic images
+        recivecs, repeats = model._process_cellvecs(cellvecs)
+        # Compute distances in the regular fashion
+        model.distances = []
+        model._set_physics(None, None, atsymbols, atpositions, cellvecs, recivecs, repeats)
+        distances1 = model.distances
+        # Compute the distances again, using a larger repeat vector.
+        model.distances = []
+        model._set_physics(None, None, atsymbols, atpositions, cellvecs, recivecs, repeats+1)
+        distances2 = model.distances
+        # No new distances should be found with larger repeat vector.
+        assert len(distances1) == len(distances2)
 
 
 if __name__ == '__main__':

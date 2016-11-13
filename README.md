@@ -4,7 +4,6 @@ Disclaimer
 This is work in progress! Do not trust the results yet. Things to be done:
 
 - Switch to (less accurate) unit conversions used in ReaxFF.
-- Write unit tests, e.g. for small unit cells.
 - Figure out why constraints on ACKS2 do not give the same result as disabling charge
   transfer between fragments. (This could be the right behavior.)
 
