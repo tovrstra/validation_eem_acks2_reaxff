@@ -4,8 +4,8 @@ Disclaimer
 This is work in progress! Do not trust the results yet. Things to be done:
 
 - Switch to (less accurate) unit conversions used in ReaxFF.
-- Double check parameter positions once more in ffield file.
-- Double check ones more with ReaxFF wiki.
+- Move comment on "swb" to taper section of wiki.
+- Fix factor 2 error of eta in EEM section of wiki.
 - Figure out why constraints on ACKS2 do not give the same result as disabling charge
   transfer between fragments. (This could be the right behavior.)
 
@@ -37,7 +37,7 @@ Energy (due to charges) and charges are just printed on screen. XYZ files for mo
 and periodic structures are included in the repository. Two dummy ReaxFF parameter files
 are provided: ffield_eem and ffield_acks2. Unit tests can be executed as follows:
 
-    nosetests3 ./compute_charges.py
+    nosetests-3.* ./compute_charges.py
 
 
 References

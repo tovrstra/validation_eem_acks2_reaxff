@@ -159,11 +159,18 @@ class EEMModel(object):
     def _extract_parameters(self):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
         self.rcut = self.general_pars[12][0]*angstrom
+        assert self.rcut > 0
         print('Coulomb cutoff [Å]: {:10.5f}'.format(self.rcut/angstrom))
         for symbol, values in self.atom_pars.items():
             self.gammas[symbol] = values[5]*(1/angstrom)
             self.chis[symbol] = values[13]*electronvolt
             self.etas[symbol] = values[14]*electronvolt
+            if 2*self.etas[symbol] < self.gammas[symbol]:
+                print('Polarization catastrophe safety check failed for {}'.format(symbol))
+                print('    2*eta[{symbol}]*4*pi*epsilon_0 = {:.4f} Å^-1 < gamma[{symbol}] = {:.4f} Å^-1'.format(
+                    2*self.etas[symbol]*angstrom, self.gammas[symbol]*angstrom, symbol=symbol))
+                print('    2*eta[{symbol}] = {:.4f} eV e^-2 < gamma[{symbol}]/(4*pi*epsilon_0) = {:.4f} ev e^-2'.format(
+                    2*self.etas[symbol]/electronvolt, self.gammas[symbol]/electronvolt, symbol=symbol))
 
     def _process_cellvecs(self, cellvecs):
         if cellvecs is None:
@@ -229,10 +236,18 @@ class EEMModel(object):
                                 continue
                             assert distance > self.rmin
                             self._set_physics_atom_pair(A, B, atsymbols, iatom0, iatom1, natom, distance)
+        # Check eigenvalues of the hardness matrix
+        if A is not None:
+            evals = np.linalg.eigvalsh(A[:natom, :natom])
+            if evals.min() <= 0:
+                print('Hardness matrix has non-positive eigenvalues, which is not good!')
+                print('(This is the polarization catastrophe.)')
+                for e in evals:
+                    print('{:10.5f}'.format(e))
 
     def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
-        B[iatom] = self.chis[atsymbols[iatom]]
-        A[iatom, iatom] = self.etas[atsymbols[iatom]]
+        B[iatom] = -self.chis[atsymbols[iatom]]
+        A[iatom, iatom] = 2*self.etas[atsymbols[iatom]]
 
     def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance):
         gamma0 = self.gammas[atsymbols[iatom0]]
@@ -302,6 +317,8 @@ class ACKS2Model(EEMModel):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
         EEMModel._extract_parameters(self)
         self.bsoft_amp = self.general_pars[34][0]/electronvolt
+        if self.bsoft_amp <= 0:
+            print('The bond softness amplitude is not positive, while it should.')
         for symbol, values in self.atom_pars.items():
             self.bsoft_radii[symbol] = values[22]*angstrom
 
@@ -376,7 +393,9 @@ class ACKS2Model(EEMModel):
         for icon, (charge, indexes) in enumerate(constraints):
             self._set_constraint(A, B, 2*natom + icon, charge, indexes)
         # Set reference charges to least-norm solution that satisfies the constraints
-        B[natom:2*natom] = np.linalg.lstsq(A[2*natom:2*natom+ncon, :natom], B[2*natom:2*natom+ncon], rcond=1e-10)[0]
+        B[natom:2*natom] = np.linalg.lstsq(
+            A[2*natom:2*natom+ncon, :natom],
+            B[2*natom:2*natom+ncon], rcond=1e-10)[0]
 
         # Physics
         self._set_constraint(A, B, 2*natom + ncon, 0.0, np.arange(natom, 2*natom))
