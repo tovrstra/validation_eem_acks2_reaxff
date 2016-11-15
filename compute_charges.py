@@ -191,6 +191,21 @@ class EEMModel(object):
                     self.etas[symbol]/electronvolt, self.gammas[symbol]/electronvolt/2, symbol=symbol))
 
     def _process_cellvecs(self, cellvecs):
+        """Compute reciprocal cell vecs and the number neigboring images within cutoff.
+
+        Parameters
+        ----------
+        cellvecs : np.ndarray, shape=(3, 3), dtype=float
+            The matrix with cell vectors, each row is one vector.
+
+        Returns
+        -------
+        recivecs : np.ndarray, shape=(3, 3), dtype=float
+            The inverse of the matrix cellvecs, each column is one vector.
+        repeats : np.ndarray, shape(3,), dtype=int
+            The number of repetitions of periodic images to consider, i.e. from -repeats
+            to +repeats.
+        """
         if cellvecs is None:
             recivecs = None
             repeats = np.zeros(3, int)
@@ -226,6 +241,27 @@ class EEMModel(object):
         B[index_con] = target
 
     def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats):
+        """Fill matrix elements in A and B due to the physics of the EEM or ACKS2 models.
+
+        Parameters
+        ----------
+        A : np.ndarray, shape=(N, N), dtype=float
+            The matrix with linear coefficients defining the charge equations (xmortr in
+            ReaxFF).
+        B : np.ndarray, shape=(N,), dtype=float
+            The vector with the right-hand-sides of the equations (elcvec in ReaxFF).
+        atsymbols : list of str
+            List with atomic symbols.
+        atpositions : np.ndarray, shape=(N, 3), dtype=float
+            The atomic positions.
+        cellvecs : np.ndarray, shape=(3, 3), dtype=float
+            The matrix with cell vectors, each row is one vector.
+        recivecs : np.ndarray, shape=(3, 3), dtype=float
+            The inverse of the matrix cellvecs, each column is one vector.
+        repeats : np.ndarray, shape(3,), dtype=int
+            The number of repetitions of periodic images to consider, i.e. from -repeats
+            to +repeats.
+        """
         natom = len(atsymbols)
         for iatom0 in range(natom):
             self._set_physics_atom(A, B, atsymbols, iatom0, natom)
@@ -264,10 +300,12 @@ class EEMModel(object):
                     print('{:10.5f}'.format(e))
 
     def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
+        """Set matrix elements related to individual atoms."""
         B[iatom] = -self.chis[atsymbols[iatom]]
         A[iatom, iatom] = 2*self.etas[atsymbols[iatom]]
 
     def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance):
+        """Set matrix elements related to atom pairs."""
         gamma0 = self.gammas[atsymbols[iatom0]]
         gamma1 = self.gammas[atsymbols[iatom1]]
         # In atomic units, 1/(4*pi*epsilon_0) is numerically equal
@@ -350,11 +388,13 @@ class ACKS2Model(EEMModel):
             self.bsoft_radii[symbol] = values[22]*angstrom
 
     def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
+        """Set matrix elements related to individual atoms."""
         EEMModel._set_physics_atom(self, A, B, atsymbols, iatom, natom)
         A[iatom, iatom+natom] = 1.0
         A[iatom+natom, iatom] = 1.0
 
     def _set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance):
+        """Set matrix elements related to atom pairs."""
         EEMModel._set_physics_atom_pair(self, A, B, atsymbols, iatom0, iatom1, natom, distance)
         bsoft_rcut = (self.bsoft_radii[atsymbols[iatom0]] + self.bsoft_radii[atsymbols[iatom1]])/2
         assert bsoft_rcut < self.rcut
@@ -367,6 +407,7 @@ class ACKS2Model(EEMModel):
             A[iatom1 + natom, iatom0 + natom] += bsoft
 
     def _reduce_constraints(self, A, B, natom, ncon):
+        """Implement charge constraints in ACKS2 by zero-ing X matrix elements."""
         # A) Rewrite the first (total-charge) constraint to no longer overlap with the
         # remaining ones
         A_con = A[2*natom: 2*natom+ncon, :natom].copy()
