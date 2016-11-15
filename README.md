@@ -3,8 +3,6 @@ Disclaimer
 
 This is work in progress! Do not trust the results yet. Things to be done:
 
-- Move comment on "swb" to taper section of wiki.
-- Fix factor 2 error of eta in EEM section of wiki.
 - Figure out why constraints on ACKS2 do not give the same result as disabling charge
   transfer between fragments. (This could be the right behavior.)
 
