@@ -6,6 +6,7 @@ installation.
 
 Unlike ReaxFF, this script internally works in atomic units, because that is sooo much
 easier. All parameters and geometries are converted to atomic units when they are read.
+Results are converted from atomic units when they are printed on screen.
 """
 
 import argparse
@@ -31,6 +32,8 @@ electronvolt = 1.6021766208e-19/4.359744650e-18
 kcalmol = (4184/4.359744650e-18/6.022140857e23)
 
 # Overwrite energy units to be exactly compatible with ReaxFF.
+# If you are not comfortable with atomic units, uncomment the following line.
+# angstrom = 1.0  # It should give exactly the same result.
 kcalmol = 1.0/(angstrom*332.0638)
 electronvolt = 1.0/(angstrom*14.40)
 
@@ -347,10 +350,16 @@ class EEMModel(object):
 
         # Print out intermediate result.
         if verbose:
-            print('A')
-            print(A)
-            print('B')
-            print(B)
+            # A
+            A_copy = A.copy()
+            A_copy[:natom, :natom] /= electronvolt
+            print('A (xmortr) [mixed ReaxFF units, based on electronvolt]')
+            print(A_copy)
+            # B
+            B_copy = B.copy()
+            B_copy[:natom] /= electronvolt
+            print('B (elcvec) [mixed ReaxFF units, based on electronvolt]')
+            print(B_copy)
 
         # Solve the charges
         charges = np.linalg.solve(A, B)[:natom]
@@ -477,10 +486,17 @@ class ACKS2Model(EEMModel):
 
         # Print out intermediate result.
         if verbose:
-            print('A')
-            print(A)
-            print('B')
-            print(B)
+            # A
+            A_copy = A.copy()
+            A_copy[:natom, :natom] /= electronvolt
+            A_copy[natom:2*natom, natom:2*natom] *= electronvolt
+            print('A (xmortr) [mixed ReaxFF units, based on electronvolt]')
+            print(A_copy)
+            # B
+            B_copy = B.copy()
+            B_copy[:natom] /= electronvolt
+            print('B (elcvec) [mixed ReaxFF units, based on electronvolt]')
+            print(B_copy)
 
         # Solve
         solution = np.linalg.solve(A, B)
