@@ -14,11 +14,24 @@ import shlex
 import numpy as np
 
 
-# For now, taken from NIST. Should be replaced by (less accurate) units used in ReaxFF.
+# Unit conversion in this script works as follows: internally atomic units are used. Input
+# is converted into atomic units as early as possible, i.e. when reading from files.
+# Output is converted from atomic units as late as possible, i.e. when printing on screen.
+
+# To convert to atomic units, multiply by the unit name:
+#     d = 5*angstrom   # Assign a distance of 5 angstrom (in atomic units) to d.
+# To convert from atomic units, divide by the unit name
+#     print(e/kcalmol) # print the energy e in k cal mol^-1.
+
+# Unit conversion constants taken from NIST, which every program would ideally use.
 # The calorie is just defined with a four-digit precision relative to the Joule.
 angstrom = 1.0/0.52917721067
 electronvolt = 1.6021766208e-19/4.359744650e-18
 kcalmol = (4184/4.359744650e-18/6.022140857e23)
+
+# Overwrite energy units to be exactly compatible with ReaxFF.
+kcalmol = 1.0/(angstrom*332.0638)
+electronvolt = 1.0/(angstrom*14.40)
 
 
 def main():
@@ -504,6 +517,32 @@ def test_cutoff():
         distances2 = model.distances
         # No new distances should be found with larger repeat vector.
         assert len(distances1) == len(distances2)
+
+
+def test_reaxff_units_kcalmol():
+    # Coulomb energy in k cal mol^-1 of two protons at distance of one angstrom,
+    # where the number 332.0638 is taken from the ReaxFF code. This is an approximation
+    # of 1/(4*pi*epsilon_0) in those units. According to the NIST database of physical
+    # constants, this should be 332.0637130025968.
+    # (http://physics.nist.gov/cuu/Constants/index.html)
+    e_coul_reaxff = 332.0638
+    # The same thing in atomic units, with conversion constants for input and output.
+    e_coul_script = (1*1/(1*angstrom))/kcalmol
+    # Compare
+    np.testing.assert_equal(e_coul_reaxff, e_coul_script)
+
+
+def test_reaxff_units_electronvolt():
+    # Coulomb energy in electronvolt of two protons at distance of one angstrom,
+    # where the number 14.40 is taken from the ReaxFF code. This is an approximation
+    # of 1/(4*pi*epsilon_0) in those units. According to the NIST database of physical
+    # constants, this should be 14.399645352261372.
+    # (http://physics.nist.gov/cuu/Constants/index.html)
+    e_coul_reaxff = 14.40
+    # The same thing in atomic units, with conversion constants for input and output.
+    e_coul_script = (1*1/(1*angstrom))/electronvolt
+    # Compare
+    np.testing.assert_equal(e_coul_reaxff, e_coul_script)
 
 
 if __name__ == '__main__':
