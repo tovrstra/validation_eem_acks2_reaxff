@@ -12,6 +12,7 @@ import argparse
 import shlex
 
 import numpy as np
+np.set_printoptions(precision=4, suppress=True, linewidth=5000)
 
 
 # Unit conversion in this script works as follows: internally atomic units are used. Input
@@ -45,7 +46,8 @@ def main():
     }[args.model]()
     model.load_parameters(args.ffield)
 
-    energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs, constraints, args.reduce)
+    energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs,
+                                              constraints, args.reduce, args.verbose)
     print('Energy [k cal mol^-1] = {:.5f}'.format(energy/kcalmol))
     print('Charges [e]:')
     for q in atcharges:
@@ -75,6 +77,9 @@ def parse_args():
         '-r', '--reduce', default=False, action='store_true',
         help='Try to eliminate the charge-constraints from the ACKS2 equations. This '
              'will only work for constraints that do not overlap.')
+    parser.add_argument(
+        '-v', '--verbose', default=False, action='store_true',
+        help='Print out intermediate results for debugging.')
     return parser.parse_args()
 
 
@@ -140,7 +145,7 @@ class EEMModel(object):
         self.gammas = {}
         self.chis = {}
         self.etas = {}
-        self.rmin = 1.0
+        self.rmin = 0.5*angstrom
 
     def load_parameters(self, ffield):
         """Load relevant parameters from a ReaxFF parameter file."""
@@ -182,8 +187,8 @@ class EEMModel(object):
                 print('Polarization catastrophe safety check failed for {}'.format(symbol))
                 print('    2*eta[{symbol}]*4*pi*epsilon_0 = {:.4f} Å^-1 < gamma[{symbol}] = {:.4f} Å^-1'.format(
                     2*self.etas[symbol]*angstrom, self.gammas[symbol]*angstrom, symbol=symbol))
-                print('    2*eta[{symbol}] = {:.4f} eV e^-2 < gamma[{symbol}]/(4*pi*epsilon_0) = {:.4f} ev e^-2'.format(
-                    2*self.etas[symbol]/electronvolt, self.gammas[symbol]/electronvolt, symbol=symbol))
+                print('    eta[{symbol}] = {:.4f} eV e^-2 < gamma[{symbol}]/(8*pi*epsilon_0) = {:.4f} ev e^-2'.format(
+                    self.etas[symbol]/electronvolt, self.gammas[symbol]/electronvolt/2, symbol=symbol))
 
     def _process_cellvecs(self, cellvecs):
         if cellvecs is None:
@@ -271,7 +276,7 @@ class EEMModel(object):
         coulomb *= self.taper(distance)
         A[iatom0, iatom1] += coulomb
 
-    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints):
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints, verbose):
         """Compute atomic charges for a single molecule or crystal.
 
         Parameters
@@ -287,6 +292,8 @@ class EEMModel(object):
             group whose charge is to be constrained.
         reduce_constraints : bool
             Ignored.
+        verbose : bool
+            When True, intermediate results are printed.
         """
         natom = len(atsymbols)
         ncon = len(constraints)
@@ -294,17 +301,24 @@ class EEMModel(object):
         recivecs, repeats = self._process_cellvecs(cellvecs)
 
         # Build up the equations to be solveds
-        chi_vector = np.zeros(natom + ncon, float)
-        eta_matrix = np.zeros((natom + ncon, natom + ncon), float)
+        B = np.zeros(natom + ncon, float)
+        A = np.zeros((natom + ncon, natom + ncon), float)
         for icon, (charge, indexes) in enumerate(constraints):
-            self._set_constraint(eta_matrix, chi_vector, natom + icon, charge, indexes)
-        self._set_physics(eta_matrix, chi_vector, atsymbols, atpositions, cellvecs, recivecs, repeats)
+            self._set_constraint(A, B, natom + icon, charge, indexes)
+        self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats)
+
+        # Print out intermediate result.
+        if verbose:
+            print('A')
+            print(A)
+            print('B')
+            print(B)
 
         # Solve the charges
-        charges = np.linalg.solve(eta_matrix, chi_vector)[:natom]
+        charges = np.linalg.solve(A, B)[:natom]
 
         # Compute the energy
-        energy = np.dot(chi_vector[:natom], charges) + 0.5*np.dot(charges, np.dot(eta_matrix[:natom,:natom], charges))
+        energy = np.dot(B[:natom], charges) + 0.5*np.dot(charges, np.dot(A[:natom,:natom], charges))
 
         return energy, charges
 
@@ -377,7 +391,7 @@ class ACKS2Model(EEMModel):
             B[2*natom+1] = B[-1]
             return A[:2*natom+2, :2*natom+2], B[:2*natom+2]
 
-    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints):
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints, verbose):
         """Compute atomic charges for a single molecule or crystal.
 
         Parameters
@@ -393,6 +407,8 @@ class ACKS2Model(EEMModel):
             group whose charge is to be constrained.
         reduce_constraints : bool
             Try to eliminate the charge constraints.
+        verbose : bool
+            When True, intermediate results are printed.
         """
         natom = len(atsymbols)
         ncon = len(constraints)
@@ -418,6 +434,13 @@ class ACKS2Model(EEMModel):
         if reduce_constraints:
             A, B = self._reduce_constraints(A, B, natom, ncon)
 
+        # Print out intermediate result.
+        if verbose:
+            print('A')
+            print(A)
+            print('B')
+            print(B)
+
         # Solve
         solution = np.linalg.solve(A, B)
         charges = solution[:natom]
@@ -430,10 +453,10 @@ class ACKS2Model(EEMModel):
             np.dot(charges - B[natom:2*natom], potentials),
             0.5*np.dot(potentials, np.dot(A[natom:2*natom,natom:2*natom], potentials)),
         ]
-        print('energy 1 eneg [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
-        print('energy 2 hard [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
-        print('energy 3 coup [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
-        print('energy 4 soft [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
+        #print('energy 1 eneg [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
+        #print('energy 2 hard [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
+        #print('energy 3 coup [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
+        #print('energy 4 soft [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
         energy = sum(terms)
 
         return energy, charges
