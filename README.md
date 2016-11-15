@@ -3,6 +3,9 @@ Disclaimer
 
 This is work in progress! Do not trust the results yet. Things to be done:
 
+- Figure out why ACKS2 results are slightly different from ReaxFF:
+    - Compare xmortr and elcvec arrays.
+    - Also compare EEM results
 - Figure out why constraints on ACKS2 do not give the same result as disabling charge
   transfer between fragments. (This could be the right behavior.)
 
