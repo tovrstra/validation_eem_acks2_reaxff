@@ -348,6 +348,10 @@ class EEMModel(object):
             self._set_constraint(A, B, natom + icon, charge, indexes)
         self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats)
 
+        # Solve the charges
+        solution = np.linalg.solve(A, B)
+        charges = solution[:natom]
+
         # Print out intermediate result.
         if verbose:
             # A
@@ -360,9 +364,16 @@ class EEMModel(object):
             B_copy[:natom] /= electronvolt
             print('B (elcvec) [mixed ReaxFF units, based on electronvolt]')
             print(B_copy)
-
-        # Solve the charges
-        charges = np.linalg.solve(A, B)[:natom]
+            # solution
+            solution_copy = solution.copy()
+            solution_copy[-1] /= electronvolt
+            print('solution [mixed ReaxFF units, based on electronvolt]')
+            print(solution_copy)
+            # residual
+            residual = np.dot(A, solution) - B
+            residual[:natom] /= electronvolt
+            print('residual [mixed ReaxFF units, based on electronvolt]')
+            print(residual)
 
         # Compute the energy
         energy = np.dot(B[:natom], charges) + 0.5*np.dot(charges, np.dot(A[:natom,:natom], charges))
@@ -484,6 +495,11 @@ class ACKS2Model(EEMModel):
         if reduce_constraints:
             A, B = self._reduce_constraints(A, B, natom, ncon)
 
+        # Solve
+        solution = np.linalg.solve(A, B)
+        charges = solution[:natom]
+        potentials = solution[natom:2*natom]
+
         # Print out intermediate result.
         if verbose:
             # A
@@ -497,11 +513,17 @@ class ACKS2Model(EEMModel):
             B_copy[:natom] /= electronvolt
             print('B (elcvec) [mixed ReaxFF units, based on electronvolt]')
             print(B_copy)
-
-        # Solve
-        solution = np.linalg.solve(A, B)
-        charges = solution[:natom]
-        potentials = solution[natom:2*natom]
+            # solution
+            solution_copy = solution.copy()
+            solution_copy[natom:2*natom] /= electronvolt
+            solution_copy[-2] /= electronvolt
+            print('solution [mixed ReaxFF units, based on electronvolt]')
+            print(solution)
+            # residual
+            residual = np.dot(A, solution) - B
+            residual[:natom] /= electronvolt
+            print('residual [mixed ReaxFF units, based on electronvolt]')
+            print(residual)
 
         # Compute the energy
         terms = [
