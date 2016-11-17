@@ -420,7 +420,8 @@ class ACKS2Model(EEMModel):
         assert bsoft_rcut < self.rcut
         if distance < bsoft_rcut:
             x = distance/bsoft_rcut
-            bsoft = self.bsoft_amp*x**3*(1-x**6)
+            bsoft = self.bsoft_amp*x**3*(1-x)**6
+            bsoft *= 0.5  # compensate for double counting
             A[iatom0 + natom, iatom0 + natom] -= bsoft
             A[iatom1 + natom, iatom1 + natom] -= bsoft
             A[iatom0 + natom, iatom1 + natom] += bsoft
