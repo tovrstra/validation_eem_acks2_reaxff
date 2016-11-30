@@ -37,6 +37,7 @@ kcalmol = (4184/4.359744650e-18/6.022140857e23)
 kcalmol = 1.0/(angstrom*332.0638)
 electronvolt = 1.0/(angstrom*14.40)
 
+print('The number 23.02 [eV (k cal mol^-1)^-1]: {:.10f} ;)'.format(electronvolt/kcalmol))
 
 def main():
     """Main program."""
@@ -51,7 +52,7 @@ def main():
 
     energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs,
                                               constraints, args.reduce, args.verbose)
-    print('Energy [k cal mol^-1] = {:.5f}'.format(energy/kcalmol))
+    print('Energy {:13s} [k cal mol^-1] = {:.5f}'.format(args.model.upper(), energy/kcalmol))
     print('Charges [e]:')
     for q in atcharges:
         print('{:10.5f}'.format(q))
@@ -352,6 +353,16 @@ class EEMModel(object):
         solution = np.linalg.solve(A, B)
         charges = solution[:natom]
 
+        # Compute the energy contributions
+        terms = [
+            -np.dot(B[:natom], charges),
+            +0.5*np.dot(np.diag(A[:natom,:natom]), charges*charges),
+            0.5*(
+                np.dot(charges, np.dot(A[:natom,:natom], charges))
+                - np.dot(np.diag(A[:natom,:natom]), charges*charges)
+            )
+        ]
+
         # Print out intermediate result.
         if verbose:
             # A
@@ -375,8 +386,18 @@ class EEMModel(object):
             print('residual [mixed ReaxFF units, based on electronvolt]')
             print(residual)
 
-        # Compute the energy
-        energy = np.dot(B[:natom], charges) + 0.5*np.dot(charges, np.dot(A[:natom,:natom], charges))
+            # Print the energy contributions
+            print('Energy 0 eneg        [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
+            print('Energy 1 hard        [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
+            print('Energy 2 coul        [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
+            print('Following ReaxFF conventions...')
+            print('Energy 0+1 Charges   [k cal mol^-1] = {:.5f}'.format(
+                (terms[0]+terms[1])/kcalmol))
+            print('Energy 2 Coulomb     [k cal mol^-1] = {:.5f}'.format(
+                (terms[2])/kcalmol))
+
+        # The total energy
+        energy = sum(terms)
 
         return energy, charges
 
@@ -501,6 +522,18 @@ class ACKS2Model(EEMModel):
         charges = solution[:natom]
         potentials = solution[natom:2*natom]
 
+        # Compute the energy contributions
+        terms = [
+            -np.dot(B[:natom], charges),
+            0.5*np.dot(np.diag(A[:natom,:natom]), charges*charges),
+            0.5*(
+                np.dot(charges, np.dot(A[:natom,:natom], charges))-
+                np.dot(np.diag(A[:natom,:natom]), charges*charges)
+            ),
+            np.dot(charges - B[natom:2*natom], potentials),
+            0.5*np.dot(potentials, np.dot(A[natom:2*natom,natom:2*natom], potentials)),
+        ]
+
         # Print out intermediate result.
         if verbose:
             # A
@@ -526,17 +559,20 @@ class ACKS2Model(EEMModel):
             print('residual [mixed ReaxFF units, based on electronvolt]')
             print(residual)
 
-        # Compute the energy
-        terms = [
-            np.dot(B[:natom], charges),
-            0.5*np.dot(charges, np.dot(A[:natom,:natom], charges)),
-            np.dot(charges - B[natom:2*natom], potentials),
-            0.5*np.dot(potentials, np.dot(A[natom:2*natom,natom:2*natom], potentials)),
-        ]
-        #print('energy 1 eneg [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
-        #print('energy 2 hard [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
-        #print('energy 3 coup [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
-        #print('energy 4 soft [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
+            # Print energy contributions
+            print('Energy 0 eneg        [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
+            print('Energy 1 hard        [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
+            print('Energy 2 coul        [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
+            print('Energy 3 coup        [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
+            print('Energy 4 soft        [k cal mol^-1]: {:10.5f}'.format(terms[4]/kcalmol))
+            # Print them like ReaxFF
+            print('Following ReaxFF conventions...')
+            print('Energy 0+1+3 Charges [k cal mol^-1]: {:10.5f}'.format(
+                (terms[0]+terms[1]+terms[3])/kcalmol))
+            print('Energy 2+4 Coulomb   [k cal mol^-1]: {:10.5f}'.format(
+                (terms[2]+terms[4])/kcalmol))
+
+        # The total energy
         energy = sum(terms)
 
         return energy, charges
