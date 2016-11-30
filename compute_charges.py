@@ -188,7 +188,7 @@ class EEMModel(object):
             self.chis[symbol] = values[13]*electronvolt
             self.etas[symbol] = values[14]*electronvolt
             if 2*self.etas[symbol] < self.gammas[symbol]:
-                print('Polarization catastrophe safety check failed for {}'.format(symbol))
+                print('WARNING: polarization catastrophe safety check failed for {}'.format(symbol))
                 print('    2*eta[{symbol}]*4*pi*epsilon_0 = {:.4f} Å^-1 < gamma[{symbol}] = {:.4f} Å^-1'.format(
                     2*self.etas[symbol]*angstrom, self.gammas[symbol]*angstrom, symbol=symbol))
                 print('    eta[{symbol}] = {:.4f} eV e^-2 < gamma[{symbol}]/(8*pi*epsilon_0) = {:.4f} ev e^-2'.format(
@@ -243,6 +243,15 @@ class EEMModel(object):
         A[index_con, variable_indexes] = 1.0
         A[variable_indexes, index_con] = 1.0
         B[index_con] = target
+
+    @staticmethod
+    def _solve_constraints_least_norm(coeffs, targets):
+        solution = np.linalg.lstsq(coeffs, targets, rcond=1e-10)[0]
+        # check if the equations are solvable.
+        residual = np.linalg.norm(np.dot(coeffs, solution) - targets)**2
+        if residual > 1e-5:
+            print('WARNING: constraints are inconsistent.')
+        return solution
 
     def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats):
         """Fill matrix elements in A and B due to the physics of the EEM or ACKS2 models.
@@ -342,15 +351,18 @@ class EEMModel(object):
 
         recivecs, repeats = self._process_cellvecs(cellvecs)
 
-        # Build up the equations to be solveds
+        # Build up the equations to be solved
         B = np.zeros(natom + ncon, float)
         A = np.zeros((natom + ncon, natom + ncon), float)
         for icon, (charge, indexes) in enumerate(constraints):
             self._set_constraint(A, B, natom + icon, charge, indexes)
         self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats)
 
+        # Check the consistency of the constraints
+        self._solve_constraints_least_norm(A[natom:natom+ncon, :natom], B[natom:natom+ncon])
+
         # Solve the charges
-        solution = np.linalg.solve(A, B)
+        solution = np.linalg.lstsq(A, B, rcond=1e-10)[0]
         charges = solution[:natom]
 
         # Compute the energy contributions
@@ -505,12 +517,13 @@ class ACKS2Model(EEMModel):
         for icon, (charge, indexes) in enumerate(constraints):
             self._set_constraint(A, B, 2*natom + icon, charge, indexes)
         # Set reference charges to least-norm solution that satisfies the constraints
-        B[natom:2*natom] = np.linalg.lstsq(
+        B[natom:2*natom] = self._solve_constraints_least_norm(
             A[2*natom:2*natom+ncon, :natom],
-            B[2*natom:2*natom+ncon], rcond=1e-10)[0]
+            B[2*natom:2*natom+ncon])
 
-        # Physics
+        # Single constraint for the effective potentials
         self._set_constraint(A, B, 2*natom + ncon, 0.0, np.arange(natom, 2*natom))
+        # Physics
         self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats)
 
         # Optionally simplify the equations
@@ -518,7 +531,7 @@ class ACKS2Model(EEMModel):
             A, B = self._reduce_constraints(A, B, natom, ncon)
 
         # Solve
-        solution = np.linalg.solve(A, B)
+        solution = np.linalg.lstsq(A, B, rcond=1e-10)[0]
         charges = solution[:natom]
         potentials = solution[natom:2*natom]
 
