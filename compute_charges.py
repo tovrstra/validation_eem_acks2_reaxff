@@ -579,11 +579,16 @@ class ACKS2Model(EEMModel):
             print('Energy 3 coup          [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
             print('Energy 4 soft          [k cal mol^-1]: {:10.5f}'.format(terms[4]/kcalmol))
             # Print them like ReaxFF
-            print('Following ReaxFF conventions...')
+            print('Following NEW ReaxFF conventions...')
             print('Energy 0+1+3+4 Charges [k cal mol^-1]: {:10.5f}'.format(
                 (terms[0]+terms[1]+terms[3]+terms[4])/kcalmol))
             print('Energy 2 Coulomb       [k cal mol^-1]: {:10.5f}'.format(
                 (terms[2])/kcalmol))
+            print('Following OLD ReaxFF conventions...')
+            print('Energy 0+1+3 Charges   [k cal mol^-1]: {:10.5f}'.format(
+                (terms[0]+terms[1]+terms[3])/kcalmol))
+            print('Energy 2+4 Coulomb     [k cal mol^-1]: {:10.5f}'.format(
+                (terms[2]+terms[4])/kcalmol))
 
         # The total energy
         energy = sum(terms)
