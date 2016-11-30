@@ -52,7 +52,7 @@ def main():
 
     energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs,
                                               constraints, args.reduce, args.verbose)
-    print('Energy {:13s} [k cal mol^-1] = {:.5f}'.format(args.model.upper(), energy/kcalmol))
+    print('Energy {:15s} [k cal mol^-1]: {:10.5f}'.format(args.model.upper(), energy/kcalmol))
     print('Charges [e]:')
     for q in atcharges:
         print('{:10.5f}'.format(q))
@@ -387,13 +387,13 @@ class EEMModel(object):
             print(residual)
 
             # Print the energy contributions
-            print('Energy 0 eneg        [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
-            print('Energy 1 hard        [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
-            print('Energy 2 coul        [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
+            print('Energy 0 eneg          [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
+            print('Energy 1 hard          [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
+            print('Energy 2 coul          [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
             print('Following ReaxFF conventions...')
-            print('Energy 0+1 Charges   [k cal mol^-1] = {:.5f}'.format(
+            print('Energy 0+1 Charges     [k cal mol^-1]: {:10.5f}'.format(
                 (terms[0]+terms[1])/kcalmol))
-            print('Energy 2 Coulomb     [k cal mol^-1] = {:.5f}'.format(
+            print('Energy 2 Coulomb       [k cal mol^-1]: {:10.5f}'.format(
                 (terms[2])/kcalmol))
 
         # The total energy
@@ -560,16 +560,16 @@ class ACKS2Model(EEMModel):
             print(residual)
 
             # Print energy contributions
-            print('Energy 0 eneg        [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
-            print('Energy 1 hard        [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
-            print('Energy 2 coul        [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
-            print('Energy 3 coup        [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
-            print('Energy 4 soft        [k cal mol^-1]: {:10.5f}'.format(terms[4]/kcalmol))
+            print('Energy 0 eneg          [k cal mol^-1]: {:10.5f}'.format(terms[0]/kcalmol))
+            print('Energy 1 hard          [k cal mol^-1]: {:10.5f}'.format(terms[1]/kcalmol))
+            print('Energy 2 coul          [k cal mol^-1]: {:10.5f}'.format(terms[2]/kcalmol))
+            print('Energy 3 coup          [k cal mol^-1]: {:10.5f}'.format(terms[3]/kcalmol))
+            print('Energy 4 soft          [k cal mol^-1]: {:10.5f}'.format(terms[4]/kcalmol))
             # Print them like ReaxFF
             print('Following ReaxFF conventions...')
             print('Energy 0+1+3+4 Charges [k cal mol^-1]: {:10.5f}'.format(
                 (terms[0]+terms[1]+terms[3]+terms[4])/kcalmol))
-            print('Energy 2 Coulomb   [k cal mol^-1]: {:10.5f}'.format(
+            print('Energy 2 Coulomb       [k cal mol^-1]: {:10.5f}'.format(
                 (terms[2])/kcalmol))
 
         # The total energy
