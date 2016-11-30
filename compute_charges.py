@@ -13,7 +13,7 @@ import argparse
 import shlex
 
 import numpy as np
-np.set_printoptions(precision=4, suppress=True, linewidth=5000)
+np.set_printoptions(precision=4, suppress=True, linewidth=5000, threshold=1000000)
 
 
 # Unit conversion in this script works as follows: internally atomic units are used. Input
