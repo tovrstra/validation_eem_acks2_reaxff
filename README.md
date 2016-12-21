@@ -51,8 +51,17 @@ Molecular data sets taken from
 The mathematical form of the EEM and ACKS2 models in ReaxFF was recently summarized in the
 following paper:
 
-http://dx.doi.org/10.1021/acs.jctc.6b00432
+* 1. Islam, M. M., Kolesov, G., Verstraelen, T., Kaxiras, E. & van Duin, A. C. T. eReaxFF:
+  A Pseudoclassical Treatment of Explicit Electrons within Reactive Force Field
+  Simulations. J. Chem. Theory Comput. 12, 3463–3472 (2016).
+  http://dx.doi.org/10.1021/acs.jctc.6b00432
 
-"eReaxFF: A Pseudoclassical Treatment of Explicit Electrons within Reactive Force Field Simulations"
-Md Mahbubul Islam, Grigory Kolesov, Toon Verstraelen, Efthimios Kaxiras, and Adri C. T. van Duin
-J. Chem. Theory Comput., 2016, 12 (8), pp 3463–3472
+The ACKS2 model (in its more general form) is described in the following two papers:
+
+* Verstraelen, T., Ayers, P. W., Van Speybroeck, V. & Waroquier, M. ACKS2: atom-condensed
+  Kohn-Sham DFT approximated to second order. J. Chem. Phys. 138, 074108 (2013).
+  http://dx.doi.org/10.1063/1.4791569
+
+* Verstraelen, T., Vandenbrande, S. & Ayers, P. Direct computation of parameters for
+  accurate polarizable force fields. J. Chem. Phys. 141, 194114 (2014).
+  http://dx.doi.org/10.1063/1.4901513
