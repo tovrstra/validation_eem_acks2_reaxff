@@ -13,8 +13,6 @@ import argparse
 import shlex
 
 import numpy as np
-np.set_printoptions(precision=4, suppress=True, linewidth=5000, threshold=1000000)
-
 
 # Unit conversion in this script works as follows: internally atomic units are used. Input
 # is converted into atomic units as early as possible, i.e. when reading from files.
@@ -41,6 +39,8 @@ print('The number 23.02 [eV (k cal mol^-1)^-1]: {:.10f} ;)'.format(electronvolt/
 
 def main():
     """Main program."""
+    np.set_printoptions(precision=4, suppress=True, linewidth=5000, threshold=1000000)
+
     args = parse_args()
     atsymbols, atpositions, cellvecs = load_structure(args.struct)
     constraints = load_constraints(args.constrain, args.qtot, len(atsymbols))
