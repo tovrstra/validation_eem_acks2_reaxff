@@ -143,9 +143,9 @@ def load_constraints(fn_constraints, qtot, natom):
 class EEMModel(object):
     """Compute EEM charges as in ReaxFF."""
 
-    def __init__(self):
+    def __init__(self, rcut=None):
         """Initialize the EEMModel object."""
-        self.rcut = None
+        self.rcut = rcut
         self.gammas = {}
         self.chis = {}
         self.etas = {}
@@ -425,9 +425,9 @@ class EEMModel(object):
 class ACKS2Model(EEMModel):
     """Compute ACKS2 charges as in ReaxFF."""
 
-    def __init__(self):
+    def __init__(self, rcut=None):
         """Initialize the ACKS2Model object."""
-        EEMModel.__init__(self)
+        EEMModel.__init__(self, rcut)
         self.bsoft_amp = None
         self.bsoft_radii = {}
 
