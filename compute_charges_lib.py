@@ -10,6 +10,12 @@ import shlex
 
 import numpy as np
 
+try:
+    from compute_charges_ext import _set_physics_eem
+except ImportError:
+    _set_physics_eem = None
+_set_physics_acks2 = None
+
 
 __all__ = ['angstrom', 'electronvolt', 'kcalmol', 'load_structure', 'load_structure_xyz',
            'load_constraints', 'EEMModel', 'ACKS2Model']
@@ -92,6 +98,7 @@ def load_constraints(fn_constraints, qtot, natom):
 
 class EEMModel(object):
     """Compute EEM charges as in ReaxFF."""
+    _set_physics_fast = _set_physics_eem
 
     def __init__(self, rcut=None):
         """Initialize the EEMModel object."""
@@ -223,6 +230,18 @@ class EEMModel(object):
         return solution
 
     def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats, safe):
+        if self._set_physics_fast is None:
+            self._set_physics_slow(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats, safe)
+        else:
+            self._set_physics_fast(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats,
+                {'rcut': self.rcut,
+                 'gammas': self.gammas,
+                 'chis': self.chis,
+                 'etas': self.etas,
+                }
+            )
+
+    def _set_physics_slow(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats, safe):
         """Fill matrix elements in A and B due to the physics of the EEM or ACKS2 models.
 
         Parameters
@@ -403,6 +422,7 @@ class EEMModel(object):
 
 class ACKS2Model(EEMModel):
     """Compute ACKS2 charges as in ReaxFF."""
+    _set_physics_fast = _set_physics_acks2
 
     def __init__(self, rcut=None):
         """Initialize the ACKS2Model object."""
