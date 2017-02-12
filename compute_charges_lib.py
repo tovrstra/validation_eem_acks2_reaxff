@@ -127,6 +127,8 @@ class EEMModel(object):
                 row.extend([float(word) for word in words])
                 self.atom_pars[symbol] = np.array(row)
             self._extract_parameters()
+            self._check_parameters(sorted(self.atom_pars.keys()), verbose=True)
+
 
     def _extract_parameters(self):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
@@ -137,7 +139,6 @@ class EEMModel(object):
             self.gammas[symbol] = values[5]*(1/angstrom)
             self.chis[symbol] = values[13]*electronvolt
             self.etas[symbol] = values[14]*electronvolt
-        self._check_parameters(sorted(self.atom_pars.keys()), verbose=True)
 
     def _check_parameters(self, symbols, verbose):
         result = True
@@ -413,10 +414,23 @@ class ACKS2Model(EEMModel):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
         EEMModel._extract_parameters(self)
         self.bsoft_amp = self.general_pars[34][0]/electronvolt
-        if self.bsoft_amp <= 0:
-            print('The bond softness amplitude is not positive, while it should.')
         for symbol, values in self.atom_pars.items():
             self.bsoft_radii[symbol] = values[22]*angstrom
+
+    def _check_parameters(self, symbols, verbose):
+        """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
+        result = EEMModel._check_parameters(self, symbols, verbose)
+        if self.bsoft_amp <= 0:
+            result = False
+            if verbose:
+                print('The bond softness amplitude is not positive, while it should.')
+        for symbol in symbols:
+            if self.bsoft_radii[symbol] < 0:
+                result = False
+                if verbose:
+                    print('    bsoft_radius[{}] = {:.4f} Å < 0'.format(
+                        symbol, self.bsoft_radii[symbol]/angstrom))
+        return result
 
     def _set_physics_atom(self, A, B, atsymbols, iatom, natom):
         """Set matrix elements related to individual atoms."""
