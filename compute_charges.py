@@ -271,7 +271,7 @@ class EEMModel(object):
             print('WARNING: constraints are inconsistent.')
         return solution
 
-    def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats):
+    def _set_physics(self, A, B, atsymbols, atpositions, cellvecs, recivecs, repeats, safe):
         """Fill matrix elements in A and B due to the physics of the EEM or ACKS2 models.
 
         Parameters
@@ -292,6 +292,9 @@ class EEMModel(object):
         repeats : np.ndarray, shape(3,), dtype=int
             The number of repetitions of periodic images to consider, i.e. from -repeats
             to +repeats.
+        safe : bool
+            Set to True when the parameters are guaranteed to be safe. The positive
+            definiteness of the A matrix is not checked when safe==True.
         """
         natom = len(atsymbols)
         for iatom0 in range(natom):
@@ -322,7 +325,7 @@ class EEMModel(object):
                             assert distance > self.rmin
                             self._set_physics_atom_pair(A, B, atsymbols, iatom0, iatom1, natom, distance)
         # Check eigenvalues of the hardness matrix
-        if A is not None:
+        if not safe and A is not None:
             evals = np.linalg.eigvalsh(A[:natom, :natom])
             if evals.min() <= 0:
                 print('Hardness matrix has non-positive eigenvalues, which is not good!')
@@ -345,7 +348,7 @@ class EEMModel(object):
         coulomb *= self.taper(distance)
         A[iatom0, iatom1] += coulomb
 
-    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints, verbose):
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints, verbose, safe=False):
         """Compute atomic charges for a single molecule or crystal.
 
         Parameters
@@ -363,6 +366,9 @@ class EEMModel(object):
             Ignored.
         verbose : bool
             When True, intermediate results are printed.
+        safe : bool
+            Set to True when the parameters are guaranteed to be safe. The positive
+            definiteness of the A matrix is not checked when safe==True.
         """
         natom = len(atsymbols)
         ncon = len(constraints)
@@ -374,13 +380,17 @@ class EEMModel(object):
         A = np.zeros((natom + ncon, natom + ncon), float)
         for icon, (charge, indexes) in enumerate(constraints):
             self._set_constraint(A, B, natom + icon, charge, indexes)
-        self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats)
+        self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats, safe)
 
         # Check the consistency of the constraints
         self._solve_constraints_least_norm(A[natom:natom+ncon, :natom], B[natom:natom+ncon])
 
         # Solve the charges
-        solution = np.linalg.lstsq(A, B, rcond=1e-10)[0]
+        try:
+            solution = np.linalg.lstsq(A, B, rcond=1e-10)[0]
+        except ValueError:
+            print(A)
+            raise
         charges = solution[:natom]
 
         # Compute the energy contributions
