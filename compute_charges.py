@@ -187,12 +187,30 @@ class EEMModel(object):
             self.gammas[symbol] = values[5]*(1/angstrom)
             self.chis[symbol] = values[13]*electronvolt
             self.etas[symbol] = values[14]*electronvolt
+        self._check_parameters(sorted(self.atom_pars.keys()), verbose=True)
+
+    def _check_parameters(self, symbols, verbose):
+        result = True
+        for symbol in self.symbols:
+            if self.etas[symbol] < 0:
+                result = False
+                if verbose:
+                    print('    eta[{}] = {:.4f} Å^-1 < 0'.format(
+                        symbol, self.etas[symbol]*angstrom))
+            if self.gammas[symbol] < 0:
+                result = False
+                if verbose:
+                    print('    gamma[{}] = {:.4f} eV < 0'.format(
+                        symbol, self.gammas[symbol]/electronvolt))
             if 2*self.etas[symbol] < self.gammas[symbol]:
-                print('WARNING: polarization catastrophe safety check failed for {}'.format(symbol))
-                print('    2*eta[{symbol}]*4*pi*epsilon_0 = {:.4f} Å^-1 < gamma[{symbol}] = {:.4f} Å^-1'.format(
-                    2*self.etas[symbol]*angstrom, self.gammas[symbol]*angstrom, symbol=symbol))
-                print('    eta[{symbol}] = {:.4f} eV e^-2 < gamma[{symbol}]/(8*pi*epsilon_0) = {:.4f} ev e^-2'.format(
-                    self.etas[symbol]/electronvolt, self.gammas[symbol]/electronvolt/2, symbol=symbol))
+                result = False
+                if verbose:
+                    print('WARNING: polarization catastrophe safety check failed for {}'.format(symbol))
+                    print('    2*eta[{symbol}]*4*pi*epsilon_0 = {:.4f} Å^-1 < gamma[{symbol}] = {:.4f} Å^-1'.format(
+                        2*self.etas[symbol]*angstrom, self.gammas[symbol]*angstrom, symbol=symbol))
+                    print('    eta[{symbol}] = {:.4f} eV e^-2 < gamma[{symbol}]/(8*pi*epsilon_0) = {:.4f} ev e^-2'.format(
+                        self.etas[symbol]/electronvolt, self.gammas[symbol]/electronvolt/2, symbol=symbol))
+        return result
 
     def _process_cellvecs(self, cellvecs):
         """Compute reciprocal cell vecs and the number neigboring images within cutoff.
