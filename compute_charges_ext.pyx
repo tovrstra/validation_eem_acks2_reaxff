@@ -30,8 +30,8 @@ def _set_physics_eem(np.ndarray[double, ndim=2] A not None, np.ndarray[double, n
     # Prepare arrays with atomic parameters
     cdef np.ndarray[double, ndim=1] gammai2 = np.zeros(natom)
     for iatom, symbol in enumerate(atsymbols):
-        A[iatom, iatom] = parameters['etas'][symbol]
-        B[iatom] = parameters['chis'][symbol]
+        A[iatom, iatom] = 2*parameters['etas'][symbol]
+        B[iatom] = -parameters['chis'][symbol]
         gammai2[iatom] = parameters['gammas'][symbol]**(-0.5)
 
     # Call C++ function

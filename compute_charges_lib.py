@@ -15,6 +15,7 @@ try:
 except ImportError:
     _set_physics_eem = None
 _set_physics_acks2 = None
+#_set_physics_eem = None
 
 
 __all__ = ['angstrom', 'electronvolt', 'kcalmol', 'load_structure', 'load_structure_xyz',
