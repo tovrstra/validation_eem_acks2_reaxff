@@ -137,7 +137,6 @@ class EEMModel(object):
             self._extract_parameters(verbose)
             self._check_parameters(sorted(self.atom_pars.keys()), verbose=True)
 
-
     def _extract_parameters(self, verbose=False):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
         self.rcut = self.general_pars[12][0]*angstrom
@@ -690,11 +689,11 @@ def test_cutoff():
         recivecs, repeats = model._process_cellvecs(cellvecs)
         # Compute distances in the regular fashion
         model.distances = []
-        model._set_physics(None, None, atsymbols, atpositions, cellvecs, recivecs, repeats)
+        model._set_physics(None, None, atsymbols, atpositions, cellvecs, recivecs, repeats, safe=True)
         distances1 = model.distances
         # Compute the distances again, using a larger repeat vector.
         model.distances = []
-        model._set_physics(None, None, atsymbols, atpositions, cellvecs, recivecs, repeats+1)
+        model._set_physics(None, None, atsymbols, atpositions, cellvecs, recivecs, repeats+1, safe=True)
         distances2 = model.distances
         # No new distances should be found with larger repeat vector.
         assert len(distances1) == len(distances2)
