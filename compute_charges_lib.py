@@ -109,7 +109,7 @@ class EEMModel(object):
         self.etas = {}
         self.rmin = 0.5*angstrom
 
-    def load_parameters(self, ffield):
+    def load_parameters(self, ffield, verbose=False):
         """Load relevant parameters from a ReaxFF parameter file."""
         with open(ffield) as f:
             lines = f.readlines()
@@ -134,21 +134,22 @@ class EEMModel(object):
                 words = lines[9+npar_general+4*ielement].split()
                 row.extend([float(word) for word in words])
                 self.atom_pars[symbol] = np.array(row)
-            self._extract_parameters()
+            self._extract_parameters(verbose)
             self._check_parameters(sorted(self.atom_pars.keys()), verbose=True)
 
 
-    def _extract_parameters(self):
+    def _extract_parameters(self, verbose=False):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
         self.rcut = self.general_pars[12][0]*angstrom
         assert self.rcut > 0
-        print('Coulomb cutoff [Å]: {:10.5f}'.format(self.rcut/angstrom))
+        if verbose:
+            print('Coulomb cutoff [Å]: {:10.5f}'.format(self.rcut/angstrom))
         for symbol, values in self.atom_pars.items():
             self.gammas[symbol] = values[5]*(1/angstrom)
             self.chis[symbol] = values[13]*electronvolt
             self.etas[symbol] = values[14]*electronvolt
 
-    def _check_parameters(self, symbols, verbose):
+    def _check_parameters(self, symbols, verbose=False):
         result = True
         for symbol in symbols:
             if self.etas[symbol] < 0:
@@ -171,7 +172,7 @@ class EEMModel(object):
                         self.etas[symbol]/electronvolt, self.gammas[symbol]/electronvolt/2, symbol=symbol))
         return result
 
-    def _process_cellvecs(self, cellvecs):
+    def _process_cellvecs(self, cellvecs, verbose=False):
         """Compute reciprocal cell vecs and the number neigboring images within cutoff.
 
         Parameters
@@ -195,9 +196,11 @@ class EEMModel(object):
             # Compute the number of images to be considered to include everything within
             # the cutoff sphere.
             spacings = (recivecs**2).sum(axis=0)**(-0.5)
-            print('Crystal plane spacings [Å]: {:10.5f} {:10.5f} {:10.5f}'.format(*(spacings/angstrom)))
+            if verbose:
+                print('Crystal plane spacings [Å]: {:10.5f} {:10.5f} {:10.5f}'.format(*(spacings/angstrom)))
             repeats = np.floor(self.rcut/spacings + 0.5).astype(int)
-            print('Supercell for electrostatics: {} {} {}'.format(*(2*repeats+1)))
+            if verbose:
+                print('Supercell for electrostatics: {} {} {}'.format(*(2*repeats+1)))
         return recivecs, repeats
 
     @staticmethod
@@ -222,11 +225,11 @@ class EEMModel(object):
         B[index_con] = target
 
     @staticmethod
-    def _solve_constraints_least_norm(coeffs, targets):
+    def _solve_constraints_least_norm(coeffs, targets, verbose=False):
         solution = np.linalg.lstsq(coeffs, targets, rcond=1e-10)[0]
         # check if the equations are solvable.
         residual = np.linalg.norm(np.dot(coeffs, solution) - targets)**2
-        if residual > 1e-5:
+        if verbose and residual > 1e-5:
             print('WARNING: constraints are inconsistent.')
         return solution
 
@@ -319,7 +322,8 @@ class EEMModel(object):
         coulomb *= self.taper(distance)
         A[iatom0, iatom1] += coulomb
 
-    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints, reduce_constraints, verbose, safe=False):
+    def compute_charges(self, atsymbols, atpositions, cellvecs, constraints,
+                        reduce_constraints, verbose=False, safe=False):
         """Compute atomic charges for a single molecule or crystal.
 
         Parameters
@@ -344,7 +348,7 @@ class EEMModel(object):
         natom = len(atsymbols)
         ncon = len(constraints)
 
-        recivecs, repeats = self._process_cellvecs(cellvecs)
+        recivecs, repeats = self._process_cellvecs(cellvecs, verbose)
 
         # Build up the equations to be solved
         B = np.zeros(natom + ncon, float)
@@ -354,7 +358,7 @@ class EEMModel(object):
         self._set_physics(A, B, atsymbols, atpositions, cellvecs, recivecs, repeats, safe)
 
         # Check the consistency of the constraints
-        self._solve_constraints_least_norm(A[natom:natom+ncon, :natom], B[natom:natom+ncon])
+        self._solve_constraints_least_norm(A[natom:natom+ncon, :natom], B[natom:natom+ncon], verbose)
 
         # Solve the charges
         try:
@@ -431,7 +435,7 @@ class ACKS2Model(EEMModel):
         self.bsoft_amp = None
         self.bsoft_radii = {}
 
-    def _extract_parameters(self):
+    def _extract_parameters(self, verbose):
         """Extract parameters from a list of lines, loaded from a ReaxFF parameter file."""
         EEMModel._extract_parameters(self)
         self.bsoft_amp = self.general_pars[34][0]/electronvolt
@@ -535,7 +539,7 @@ class ACKS2Model(EEMModel):
         # Set reference charges to least-norm solution that satisfies the constraints
         B[natom:2*natom] = self._solve_constraints_least_norm(
             A[2*natom:2*natom+ncon, :natom],
-            B[2*natom:2*natom+ncon])
+            B[2*natom:2*natom+ncon], verbose)
 
         # Single constraint for the effective potentials
         self._set_constraint(A, B, 2*natom + ncon, 0.0, np.arange(natom, 2*natom))

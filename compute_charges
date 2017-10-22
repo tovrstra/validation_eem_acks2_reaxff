@@ -19,7 +19,7 @@ def main():
         'eem': EEMModel,
         'acks2': ACKS2Model,
     }[args.model]()
-    model.load_parameters(args.ffield)
+    model.load_parameters(args.ffield, args.verbose)
 
     energy, atcharges = model.compute_charges(atsymbols, atpositions, cellvecs,
                                               constraints, args.reduce, args.verbose)
