@@ -151,20 +151,22 @@ class EEMModel(object):
     def _check_parameters(self, symbols, verbose=False):
         result = True
         for symbol in symbols:
-            if self.etas[symbol] < 0:
+            if self.etas[symbol] <= 0:
                 result = False
                 if verbose:
-                    print('    eta[{}] = {:.4f} Å^-1 < 0'.format(
-                        symbol, self.etas[symbol]*angstrom))
-            if self.gammas[symbol] < 0:
+                    print('WARNING: negative hardness for \'{}\''.format(symbol))
+                    print('    eta[{}] = {:.4f} eV <= 0'.format(
+                        symbol, self.etas[symbol]/electronvolt))
+            if self.gammas[symbol] <= 0:
                 result = False
                 if verbose:
-                    print('    gamma[{}] = {:.4f} eV < 0'.format(
-                        symbol, self.gammas[symbol]/electronvolt))
+                    print('WARNING: negative gamma for \'{}\''.format(symbol))
+                    print('    gamma[{}] = {:.4f} A^-1 <= 0'.format(
+                        symbol, self.gammas[symbol]*angstrom))
             if 2*self.etas[symbol] < self.gammas[symbol]:
                 result = False
                 if verbose:
-                    print('WARNING: polarization catastrophe safety check failed for {}'.format(symbol))
+                    print('WARNING: polarization catastrophe safety check failed for \'{}\''.format(symbol))
                     print('    2*eta[{symbol}]*4*pi*epsilon_0 = {:.4f} Å^-1 < gamma[{symbol}] = {:.4f} Å^-1'.format(
                         2*self.etas[symbol]*angstrom, self.gammas[symbol]*angstrom, symbol=symbol))
                     print('    eta[{symbol}] = {:.4f} eV e^-2 < gamma[{symbol}]/(8*pi*epsilon_0) = {:.4f} ev e^-2'.format(
