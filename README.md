@@ -24,6 +24,7 @@ Requirements
 
 * Python >= 3.0
 * Numpy >= 1.0
+* Pytest (for testing only)
 
 
 How to run an example
@@ -37,7 +38,7 @@ Energy (due to charges) and charges are just printed on screen. XYZ files for mo
 and periodic structures are included in the repository. Two dummy ReaxFF parameter files
 are provided: ffield_eem and ffield_acks2. Unit tests can be executed as follows:
 
-    nosetests-3.* ./compute_charges.py
+    pytest ./compute_charges_lib.py
 
 
 References
