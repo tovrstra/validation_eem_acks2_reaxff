@@ -183,7 +183,7 @@ class EEMModel(object):
                 if verbose:
                     print(
                         "WARNING: polarization catastrophe safety check failed for '{}'".format(
-                            symbol
+                            symbol.upper()
                         )
                     )
                     print(

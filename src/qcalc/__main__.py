@@ -3,7 +3,15 @@
 import argparse
 import numpy as np
 
-from . import EEMModel, ACKS2Model, electronvolt, kcalmol, load_structure, load_constraints
+from . import (
+    EEMModel,
+    ACKS2Model,
+    angstrom,
+    electronvolt,
+    kcalmol,
+    load_structure,
+    load_constraints,
+)
 
 
 def main():
@@ -13,6 +21,10 @@ def main():
 
     args = parse_args()
     atsymbols, atpositions, cellvecs = load_structure(args.struct)
+    print("Cell vectors [Å]:")
+    for veclabel, cellvec in zip("abc", cellvecs):
+        vx, vy, vz = cellvec / angstrom
+        print(f" {veclabel} = [ {vx:10.5f} {vy:10.5f} {vz:10.5f} ]")
     constraints = load_constraints(args.constrain, args.qtot, len(atsymbols))
     model = {
         "eem": EEMModel,
@@ -23,10 +35,11 @@ def main():
     energy, atcharges = model.compute_charges(
         atsymbols, atpositions, cellvecs, constraints, args.reduce, args.verbose
     )
-    print("Energy {:15s} [k cal mol^-1]: {:10.5f}".format(args.model.upper(), energy / kcalmol))
-    print("Charges [e]:")
-    for s, q in zip(atsymbols, atcharges):
-        print("{:>3s} {:10.5f}".format(s.upper(), q))
+    print(f"{args.model.upper()} energy [k cal mol^-1]: {energy / kcalmol:10.5f}")
+    print("Sym      x [Å]      y [Å]      z [Å]       q [e]")
+    for s, atpos, q in zip(atsymbols, atpositions, atcharges):
+        ax, ay, az = atpos / angstrom
+        print(f"{s.upper():>3s} {ax:10.5f} {ay:10.5f} {az:10.5f}  {q:10.5f}")
     print("Constraints:")
     for charge, indexes in constraints:
         print(
