@@ -2,5 +2,8 @@ tmp
 ffield
 build
 __pycache__
-compute_charges_ext.cpp
 *.so
+venv
+.envrc
+_version.py
+*.egg-info
